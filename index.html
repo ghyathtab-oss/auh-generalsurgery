@@ -782,7 +782,27 @@ function openResident(name){
   else{
     list.forEach(s=>{
       const d=s.date;
-      html+='<div class="detail"><span class="lbl">'+d.getDate()+' '+MONTHS_AR[d.getMonth()]+' '+d.getFullYear()+'</span><span class="val">'+s.shift+' · '+s.pgy+'</span></div>';
+    // كل المناوبات في نفس اليوم ونفس القسم/المناوبة
+    const sameShift = SHIFTS.filter(x =>
+      x.date.getFullYear() === d.getFullYear() &&
+      x.date.getMonth() === d.getMonth() &&
+      x.date.getDate() === d.getDate() &&
+      (x.dept || x.shift) === (s.dept || s.shift)
+    );
+
+    // أسماء الآخرين معه في المناوبة
+    const others = sameShift
+      .filter(x => x.resident !== s.resident)
+      .map(x => x.resident + ' (' + x.pgy + ')');
+
+    let line = s.shift + ' · ' + s.pgy;
+    if (others.length) {
+      line += ' · مع: ' + others.join('، ');
+    }
+
+    html += '<div class="detail"><span class="lbl">'
+         + d.getDate()+' '+MONTHS_AR[d.getMonth()]+' '+d.getFullYear()
+         + '</span><span class="val">'+line+'</span></div>';
     });
   }
   sheetContent.innerHTML=html;
