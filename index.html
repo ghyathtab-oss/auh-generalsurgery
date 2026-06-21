@@ -10,7 +10,7 @@
     * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
-      font-family: "Cairo", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: "Cairo", sans-serif;
       background: #020617;
       color: #0f172a;
       min-height: 100vh;
@@ -25,29 +25,40 @@
       padding-bottom: 80px;
     }
 
-    /* ====== HEADER (مثل AUH Internal Medicine) ====== */
+    /* ====== HEADER (يظهر في كل الصفحات) ====== */
 
     .header {
       position: relative;
       width: 100%;
-      height: 210px;
+      height: 230px;
       border-bottom-left-radius: 22px;
       border-bottom-right-radius: 22px;
       overflow: hidden;
+      background: #020617;
       box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      margin-bottom: 10px;
-    }
-
-    .header-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      margin-bottom: 12px;
     }
 
     .header-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.75));
+      backdrop-filter: blur(14px);
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.35),
+        rgba(0,0,0,0.75)
+      );
+    }
+
+    .header-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 110px;
+      height: 110px;
+      transform: translate(-50%, -60%);
+      opacity: 0.92;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.7));
     }
 
     .header-date {
@@ -78,215 +89,6 @@
       opacity: 0.85;
       margin-top: 2px;
     }
-
-    /* ====== SCREENS ====== */
-
-    .screen {
-      padding: 8px 16px 16px;
-      display:none;
-    }
-
-    .screen.active { display:block; }
-
-    /* ====== CARDS ====== */
-
-    .card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: 0 10px 30px rgba(15,23,42,0.12);
-      border: 1px solid #e5e7eb;
-      margin-bottom: 10px;
-    }
-
-    label {
-      font-size: 13px;
-      color:#6b7280;
-      margin-bottom:4px;
-      display:block;
-    }
-
-    select, input[type="text"], input[type="month"], input[type="password"] {
-      width:100%;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid #d1d5db;
-      background:#f9fafb;
-      color:#111827;
-      font-size:14px;
-      margin-bottom:10px;
-    }
-
-    select:focus, input:focus {
-      outline:2px solid #6366f1;
-      background:#ffffff;
-    }
-
-    .btn-primary {
-      width:100%;
-      padding:12px;
-      border-radius:999px;
-      border:none;
-      background:linear-gradient(135deg,#6366f1,#22d3ee);
-      color:white;
-      font-size:15px;
-      font-weight:700;
-      box-shadow:0 14px 32px rgba(56,189,248,0.4);
-      cursor:pointer;
-    }
-
-    .btn-secondary {
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid #e5e7eb;
-      background:#f9fafb;
-      color:#111827;
-      font-size:12px;
-      cursor:pointer;
-    }
-
-    .helper {
-      font-size:12px;
-      color:#6b7280;
-      margin-top:6px;
-    }
-
-    /* ====== BOTTOM NAV ====== */
-
-    .bottom-nav {
-      position:fixed;
-      bottom:0; left:0; right:0;
-      max-width:480px;
-      margin:0 auto;
-      background:#ffffff;
-      border-top:1px solid #e5e7eb;
-      display:flex;
-      justify-content:space-around;
-      padding:6px 0 4px;
-      box-shadow:0 -4px 18px rgba(15,23,42,0.08);
-    }
-
-    .nav-item {
-      flex:1;
-      text-align:center;
-      color:#9ca3af;
-      font-size:11px;
-      padding:4px 0;
-      cursor:pointer;
-    }
-
-    .nav-item span {
-      display:block;
-      font-size:18px;
-    }
-
-    .nav-item.active { color:#111827; }
-
-    /* ====== RESIDENTS & SHIFTS ====== */
-
-    .residents-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .resident-card {
-      background: #f9fafb;
-      border-radius: 16px;
-      padding: 14px;
-      text-align: center;
-      color: #111827;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.18s;
-    }
-
-    .resident-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(15,23,42,0.12);
-    }
-
-    .shifts-list {
-      margin-top: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .shift-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 12px 14px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 8px 22px rgba(15,23,42,0.08);
-      font-size: 13px;
-    }
-
-    .shift-card strong {
-      color:#111827;
-    }
-
-    /* ====== TOOLS ====== */
-
-    .tools-grid {
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      margin-top:8px;
-    }
-
-    .tool-card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 12px 14px;
-      border: 1px solid #e5e7eb;
-      font-size:13px;
-      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
-    }
-
-    textarea {
-      width:100%;
-      border-radius:10px;
-      border:1px solid #d1d5db;
-      background:#f9fafb;
-      color:#111827;
-      font-size:13px;
-      padding:6px;
-      resize:vertical;
-      margin-bottom:6px;
-    }
-
-    /* ====== TERM OF THE DAY ====== */
-
-    .term-card {
-      margin-top: 10px;
-      background: linear-gradient(135deg, #4f46e5, #0ea5e9);
-      border-radius: 16px;
-      padding: 12px 14px;
-      border: 1px solid rgba(255,255,255,0.4);
-      color:white;
-      box-shadow: 0 12px 30px rgba(37,99,235,0.5);
-    }
-
-    .term-title {
-      font-size: 13px;
-      opacity: 0.9;
-      margin-bottom: 4px;
-    }
-
-    .term-main {
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .term-sub {
-      font-size: 13px;
-      margin-top: 4px;
-      opacity: 0.95;
-    }
   </style>
 </head>
 
@@ -296,15 +98,19 @@
     <!-- HEADER -->
     <div class="header">
       <div class="header-overlay"></div>
-      <!-- نفس صورة الداخلية -->
-      <img src="https://auh-internal-medicine.github.io/AUH-internal-medicine/assets/header.jpg" class="header-img">
+
+      <!-- لوغو الجراحة العامة -->
+      <img src="https://i.imgur.com/2xwqZ8F.png" class="header-logo">
+
+      <!-- التاريخ -->
       <div class="header-date" id="headerDate"></div>
+
+      <!-- العنوان -->
       <div class="header-title">
-        AUH GENERAL SURGERY
-        <span>General Surgery Residency · AUH</span>
+        أطباء الجراحة العامة
+        <span>General Surgery Residents – AUH</span>
       </div>
     </div>
-
     <!-- الرئيسية -->
     <div id="screen-home" class="screen active">
       <div class="card">
@@ -322,20 +128,19 @@
         <input type="month" id="monthInput" />
 
         <button class="btn-primary" id="startBtn">استعراض المناوبات</button>
-        <div class="helper">التطبيق مخصص لمقيمي الجراحة العامة في AUH. كلمة السر: 1</div>
 
         <button class="btn-secondary" style="margin-top:10px;" onclick="switchScreen('patients')">
           📁 أرشيف المرضى
         </button>
       </div>
 
+      <!-- مصطلح اليوم -->
       <div class="term-card">
         <div class="term-title">مصطلح اليوم</div>
         <div class="term-main" id="termWord">Sepsis</div>
         <div class="term-sub" id="termDesc">الإنتان – استجابة خطيرة للعدوى قد تؤدي لفشل الأعضاء.</div>
       </div>
     </div>
-
     <!-- المناوبات -->
     <div id="screen-shifts" class="screen">
       <h3 style="font-size:16px; margin-bottom:8px;">المقيمون حسب السنة</h3>
@@ -350,7 +155,6 @@
 
         <div class="tool-card">
           <strong>🎡 عجلة القرعة</strong>
-          <div class="helper">أدخل أسماء، كل اسم في سطر أو مفصول بفواصل.</div>
           <textarea id="wheelNames" rows="2"></textarea>
           <button class="btn-secondary" onclick="spinWheel()">تدوير العجلة</button>
           <div id="wheelResult" class="helper"></div>
@@ -358,7 +162,6 @@
 
         <div class="tool-card">
           <strong>🎲 اختيار عشوائي</strong>
-          <div class="helper">أدخل أسماء مفصولة بفواصل.</div>
           <input type="text" id="randomNames" placeholder="مثال: أحمد، سارة، علي" />
           <button class="btn-secondary" onclick="pickRandom()">اختيار اسم عشوائي</button>
           <div id="randomResult" class="helper"></div>
@@ -376,11 +179,6 @@
           <div id="diceResult" class="helper"></div>
         </div>
 
-        <div class="tool-card">
-          <strong>❌⭕ XO ضد الذكاء الاصطناعي</strong>
-          <div class="helper">قريبًا: ثلاث مستويات مع حفظ الإحصائيات محليًا.</div>
-        </div>
-
       </div>
     </div>
 
@@ -394,30 +192,29 @@
         <div id="transResult" class="helper" style="margin-top:10px;"></div>
       </div>
     </div>
-
     <!-- أرشيف المرضى -->
     <div id="screen-patients" class="screen">
       <h3 style="font-size:16px; margin-bottom:8px;">📁 أرشيف المرضى</h3>
 
       <div class="card">
         <label>اسم المريض</label>
-        <input type="text" id="pName" placeholder="مثال: أحمد خالد">
+        <input type="text" id="pName">
 
         <label>رقم المريض</label>
-        <input type="text" id="pPhone" placeholder="مثال: 0999999999">
+        <input type="text" id="pPhone">
 
         <label>الشكاية</label>
-        <input type="text" id="pComplaint" placeholder="مثال: ألم بطني – حرارة">
+        <input type="text" id="pComplaint">
 
         <label>الأخصائي</label>
-        <input type="text" id="pSpecialist" placeholder="مثال: د. غياث – جراحة عامة">
+        <input type="text" id="pSpecialist">
 
         <button class="btn-primary" onclick="savePatient()">حفظ في الأرشيف</button>
       </div>
 
       <div class="card" style="margin-top:16px;">
         <label>بحث في الأرشيف</label>
-        <input type="text" id="pSearch" placeholder="ابحث باسم أو رقم أو شكاية..." oninput="searchPatients()">
+        <input type="text" id="pSearch" oninput="searchPatients()">
       </div>
 
       <div class="tools-grid" style="margin-top:16px;">
@@ -426,24 +223,6 @@
           <div id="patientsList" class="helper" style="margin-top:6px;">لا يوجد بيانات بعد.</div>
         </div>
       </div>
-
-      <h3 style="font-size:14px; margin:16px 0 8px;">⚙️ إعدادات GitHub (مرة واحدة من قبل المسؤول)</h3>
-      <div class="card">
-        <label>GitHub Username</label>
-        <input id="ghUser" placeholder="مثال: yourusername">
-
-        <label>Repository</label>
-        <input id="ghRepo" placeholder="مثال: AUHGENERALSURGERY">
-
-        <label>Branch</label>
-        <input id="ghBranch" placeholder="main">
-
-        <label>GitHub Token</label>
-        <input id="ghToken" placeholder="ghp_XXXX" type="password">
-
-        <button class="btn-secondary" style="margin-top:6px;" onclick="saveGitHubConfig()">حفظ إعدادات GitHub</button>
-        <div class="helper">هذه الإعدادات يضعها المسؤول مرة واحدة فقط على جهازه.</div>
-      </div>
     </div>
 
     <!-- المزيد -->
@@ -451,25 +230,16 @@
       <h3 style="font-size:16px; margin-bottom:8px;">المزيد ☰</h3>
       <div class="tools-grid">
         <div class="tool-card">
-          <strong>🌙 الوضع الليلي</strong>
-          <div class="helper">التصميم الحالي مستوحى من AUH Internal Medicine.</div>
-        </div>
-        <div class="tool-card">
-          <strong>🌐 تغيير اللغة</strong>
-          <div class="helper">يمكن إضافة دعم EN لاحقًا.</div>
-        </div>
-        <div class="tool-card">
           <strong>ℹ️ حول التطبيق</strong>
           <div class="helper">AUH General Surgery – نظام مناوبات وأدوات لمقيمي الجراحة العامة.</div>
         </div>
+
         <div class="tool-card">
           <strong>🧹 مسح البيانات المحلية</strong><br>
           <button class="btn-secondary" onclick="clearLocal()">مسح LocalStorage</button>
         </div>
       </div>
     </div>
-  </div>
-
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <div class="nav-item active" data-target="home" onclick="switchScreen('home', event)">
@@ -490,393 +260,151 @@
   </div>
 
   <script>
-    let data = [];
-    let currentYear = "";
-    let currentMonth = "";
-
-    const terms = [
-      { en: "Sepsis", ar: "الإنتان", desc: "استجابة خطيرة للعدوى قد تؤدي لفشل الأعضاء." },
-      { en: "Shock", ar: "الصدمة", desc: "حالة نقص تروية الأعضاء الحيوية بسبب فشل الدوران." },
-      { en: "MI", ar: "احتشاء عضلة القلب", desc: "انقطاع التروية عن جزء من عضلة القلب." }
-    ];
-
+    /* ============================
+       كلمة السر
+    ============================ */
     function askPassword() {
       const p = prompt("أدخل كلمة السر:");
-      if (p !== "1") {
-        alert("كلمة السر غير صحيحة.");
-        askPassword();
-      }
+      if (p !== "1") askPassword();
     }
+    askPassword();
 
+    /* ============================
+       التاريخ الحي
+    ============================ */
     function updateHeaderDate() {
       const d = new Date();
       const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-      const text = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-      document.getElementById("headerDate").textContent = text;
+      document.getElementById("headerDate").textContent =
+        `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
     }
+    updateHeaderDate();
 
-    async function loadExcel() {
-      try {
-        const file = await fetch("shifts.xlsx");
-        const buf = await file.arrayBuffer();
-        const wb = XLSX.read(buf, { type: "array" });
-        const sheet = wb.Sheets[wb.SheetNames[0]];
-        data = XLSX.utils.sheet_to_json(sheet);
-      } catch (e) {
-        console.log("خطأ في تحميل ملف المناوبات:", e);
-      }
-    }
-
-    function switchScreen(target, ev) {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById("screen-" + target).classList.add("active");
-
-      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-      if (ev && ev.currentTarget) ev.currentTarget.classList.add("active");
-
-      if (target === "patients") loadPatientsArchive();
-    }
-
-    document.getElementById("startBtn").addEventListener("click", () => {
-      const year = document.getElementById("yearSelect").value;
-      const month = document.getElementById("monthInput").value;
-
-      if (!year || !month) {
-        alert("يرجى اختيار السنة والشهر");
-        return;
-      }
-
-      currentYear = year;
-      currentMonth = month;
-      showResidents(year, month);
-      switchScreen("shifts");
-    });
-
-    function showResidents(year, month) {
-      const list = document.getElementById("residentsList");
-      const filtered = data.filter(r => r["السنة"] === year);
-      const names = [...new Set(filtered.map(r => r["الأسماء"]))];
-
-      if (!names.length) {
-        list.innerHTML = "<div class='helper'>لا يوجد مقيمون لهذه السنة في الملف.</div>";
-        return;
-      }
-
-      list.innerHTML = names.map(n => `
-        <div class="resident-card" onclick="showResidentShifts('${n}', '${year}', '${month}')">
-          ${n}
-        </div>
-      ).join("");
-
-      document.getElementById("residentShifts").innerHTML = "";
-    }
-
-    function showResidentShifts(name, year, month) {
-      const container = document.getElementById("residentShifts");
-
-      const shifts = data.filter(r =>
-        r["الأسماء"] === name &&
-        r["السنة"] === year &&
-        r["التاريخ"] &&
-        r["التاريخ"].startsWith(month)
-      );
-
-      if (!shifts.length) {
-        container.innerHTML = "<div class='helper'>لا يوجد مناوبات لهذا الشهر.</div>";
-        return;
-      }
-
-      container.innerHTML = shifts.map(r => `
-        <div class="shift-card">
-          <div><strong>الدكتور:</strong> ${name}</div>
-          <div><strong>السنة:</strong> ${year}</div>
-
-          <hr style="border:0;border-bottom:1px solid #e5e7eb;margin:10px 0;">
-
-          <div><strong>المناوبة:</strong> ${r["الفرز"] || ""} ${getShiftEmoji(r["الفرز"])}</div>
-          <div><strong>الإداري:</strong> ${r["الإداري"] || ""} ${getShiftEmoji(r["الإداري"])}</div>
-          <div><strong>التاريخ:</strong> ${r["التاريخ"] || ""}</div>
-
-          <hr style="border:0;border-bottom:1px solid #e5e7eb;margin:10px 0;">
-
-          ${renderOtherYears(r["التاريخ"], r["الفرز"], name)}
-        </div>
-      ).join("");
-    }
-
-    function renderOtherYears(date, triage, excludeName) {
-      if (!date || !triage) return "";
-
-      const same = data.filter(r =>
-        r["التاريخ"] === date &&
-        r["الفرز"] === triage &&
-        r["الأسماء"] !== excludeName
-      );
-
-      const years = {
-        "أولى": [],
-        "ثانية": [],
-        "ثالثة": [],
-        "رابعة": [],
-        "خامسة": []
-      };
-
-      same.forEach(r => {
-        if (years[r["السنة"]]) years[r["السنة"]].push(r["الأسماء"]);
-      });
-
-      return Object.keys(years).map(y => `
-        <div style="margin-top:6px;">
-          <strong>${y}:</strong>
-          ${years[y].length ? `
-            <ul style="margin-top:4px;">
-              ${years[y].map(n => `<li>${n}</li>`).join("")}
-            </ul>
-          ` : `<div class="helper">لا يوجد</div>`}
-        </div>
-      `).join("");
-    }
-
-    function getShiftEmoji(type) {
-      if (!type) return "";
-      const t = type.trim();
-
-      if (t === "اسعاف") return "🚑";
-      if (t === "عناية") return "🫀";
-      if (t === "جناح") return "🛏️";
-      if (t === "بارد") return "❄️";
-
-      if (t === "إداري") return "🗂️";
-      if (t === "الحاج") return "📋";
-      if (t === "قصي") return "🗄️";
-      if (t === "غزال") return "🏥";
-      if (t === "اسعاف اداري") return "🚑";
-      if (t === "صدرية") return "🫁";
-
-      return "";
-    }
-
-    function spinWheel() {
-      const txt = document.getElementById("wheelNames").value.trim();
-      if (!txt) {
-        alert("أدخل أسماء أولاً.");
-        return;
-      }
-      const names = txt.split(/[\n,،]+/).map(s => s.trim()).filter(Boolean);
-      if (!names.length) return;
-      const winner = names[Math.floor(Math.random() * names.length)];
-      document.getElementById("wheelResult").textContent = "الفائز: " + winner;
-    }
-
-    function pickRandom() {
-      const txt = document.getElementById("randomNames").value.trim();
-      if (!txt) {
-        alert("أدخل أسماء أولاً.");
-        return;
-      }
-      const names = txt.split(/[,،]+/).map(s => s.trim()).filter(Boolean);
-      if (!names.length) return;
-      const winner = names[Math.floor(Math.random() * names.length)];
-      document.getElementById("randomResult").textContent = "الاسم المختار: " + winner;
-    }
-
-    function flipCoin() {
-      const res = Math.random() < 0.5 ? "وجه" : "كتابة";
-      document.getElementById("coinResult").textContent = "النتيجة: " + res;
-    }
-
-    function rollDice() {
-      const n = Math.floor(Math.random() * 6) + 1;
-      document.getElementById("diceResult").textContent = "النتيجة: " + n;
-    }
-
-    function searchTerm() {
-      const q = document.getElementById("termInput").value.trim().toLowerCase();
-      const div = document.getElementById("transResult");
-      if (!q) {
-        div.innerHTML = "";
-        return;
-      }
-      const found = terms.find(t =>
-        t.en.toLowerCase() === q ||
-        t.ar.toLowerCase() === q
-      );
-      if (!found) {
-        div.innerHTML = "<span class='helper'>لم يتم العثور على المصطلح في القاموس الداخلي.</span>";
-      } else {
-        div.innerHTML = `
-          <div><strong>${found.en}</strong> – ${found.ar}</div>
-          <div class="helper">${found.desc}</div>
-        `;
-      }
-    }
-
+    /* ============================
+       مصطلح طبي عشوائي
+    ============================ */
     function setRandomTerm() {
+      const terms = [
+        { en: "Sepsis", ar: "الإنتان", desc: "استجابة خطيرة للعدوى قد تؤدي لفشل الأعضاء." },
+        { en: "Shock", ar: "الصدمة", desc: "هبوط حاد في التروية الدموية يهدد الحياة." },
+        { en: "MI", ar: "احتشاء عضلة القلب", desc: "انقطاع التروية عن جزء من القلب." },
+        { en: "ARDS", ar: "متلازمة الضائقة التنفسية", desc: "فشل تنفسي حاد يحتاج دعم أكسجة." },
+        { en: "DVT", ar: "الخثار الوريدي العميق", desc: "جلطة في الأوردة العميقة غالبًا في الساق." }
+      ];
+
       const t = terms[Math.floor(Math.random() * terms.length)];
       document.getElementById("termWord").textContent = t.en;
       document.getElementById("termDesc").textContent = `${t.ar} – ${t.desc}`;
     }
+    setRandomTerm();
 
-    function saveGitHubConfig() {
-      const cfg = {
-        user: document.getElementById("ghUser").value.trim(),
-        repo: document.getElementById("ghRepo").value.trim(),
-        branch: document.getElementById("ghBranch").value.trim() || "main",
-        token: document.getElementById("ghToken").value.trim()
-      };
-      if (!cfg.user || !cfg.repo || !cfg.token) {
-        alert("يرجى تعبئة بيانات GitHub الأساسية.");
-        return;
-      }
-      localStorage.setItem("ghConfig", JSON.stringify(cfg));
-      alert("تم حفظ إعدادات GitHub.");
+    /* ============================
+       التنقل بين الصفحات
+    ============================ */
+    function switchScreen(screen, event) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("screen-" + screen).classList.add("active");
+
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+      if (event) event.currentTarget.classList.add("active");
     }
 
-    async function uploadToGitHub(content) {
-      const cfgRaw = localStorage.getItem("ghConfig");
-      if (!cfgRaw) {
-        console.log("لم يتم إعداد GitHub بعد.");
-        return;
-      }
-      const cfg = JSON.parse(cfgRaw);
-      const path = "patientsArchive.json";
-      const url = `https://api.github.com/repos/${cfg.user}/${cfg.repo}/contents/${path}`;
-
-      let sha = null;
-      try {
-        const getFile = await fetch(url, {
-          headers: { Authorization: `token ${cfg.token}` }
-        });
-        if (getFile.status === 200) {
-          const fileData = await getFile.json();
-          sha = fileData.sha;
-        }
-      } catch (e) {
-        console.log("خطأ في قراءة الملف من GitHub:", e);
-      }
-
-      const encoded = btoa(unescape(encodeURIComponent(content)));
-
-      const body = {
-        message: "Update patients archive",
-        content: encoded,
-        branch: cfg.branch
-      };
-      if (sha) body.sha = sha;
-
-      try {
-        const res = await fetch(url, {
-          method: "PUT",
-          headers: {
-            Authorization: `token ${cfg.token}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(body)
-        });
-        if (res.status === 201 || res.status === 200) {
-          console.log("تم رفع الأرشيف إلى GitHub بنجاح.");
-        } else {
-          console.log("فشل الرفع:", await res.text());
-        }
-      } catch (e) {
-        console.log("خطأ في رفع الملف إلى GitHub:", e);
-      }
+    /* ============================
+       أدوات: عجلة – عشوائي – نرد – عملة
+    ============================ */
+    function spinWheel() {
+      const names = document.getElementById("wheelNames").value.split(/[\n,،]+/).map(s => s.trim()).filter(Boolean);
+      if (!names.length) return;
+      const pick = names[Math.floor(Math.random() * names.length)];
+      document.getElementById("wheelResult").textContent = "النتيجة: " + pick;
     }
 
+    function pickRandom() {
+      const names = document.getElementById("randomNames").value.split(/[,،]+/).map(s => s.trim()).filter(Boolean);
+      if (!names.length) return;
+      const pick = names[Math.floor(Math.random() * names.length)];
+      document.getElementById("randomResult").textContent = "النتيجة: " + pick;
+    }
+
+    function flipCoin() {
+      const r = Math.random() < 0.5 ? "وجه" : "كتابة";
+      document.getElementById("coinResult").textContent = r;
+    }
+
+    function rollDice() {
+      const r = Math.floor(Math.random() * 6) + 1;
+      document.getElementById("diceResult").textContent = "🎲 " + r;
+    }
+
+    /* ============================
+       المترجم الطبي
+    ============================ */
+    function searchTerm() {
+      const q = document.getElementById("termInput").value.toLowerCase().trim();
+      if (!q) return;
+
+      const dict = {
+        sepsis: "الإنتان – استجابة خطيرة للعدوى.",
+        shock: "الصدمة – هبوط حاد في التروية.",
+        mi: "احتشاء عضلة القلب – انقطاع التروية.",
+        ards: "متلازمة الضائقة التنفسية – فشل تنفسي حاد.",
+        dvt: "الخثار الوريدي العميق – جلطة في الساق."
+      };
+
+      document.getElementById("transResult").textContent =
+        dict[q] || "غير موجود في القاموس.";
+    }
+
+    /* ============================
+       أرشيف المرضى
+    ============================ */
     function savePatient() {
       const name = document.getElementById("pName").value.trim();
       const phone = document.getElementById("pPhone").value.trim();
-      const complaint = document.getElementById("pComplaint").value.trim();
-      const specialist = document.getElementById("pSpecialist").value.trim();
+      const comp = document.getElementById("pComplaint").value.trim();
+      const spec = document.getElementById("pSpecialist").value.trim();
 
-      if (!name || !phone || !complaint || !specialist) {
-        alert("يرجى تعبئة جميع الحقول.");
-        return;
-      }
+      if (!name) return;
 
-      const key = "patientsArchive";
-      const raw = localStorage.getItem(key);
-      let arr = raw ? JSON.parse(raw) : [];
+      const entry = { name, phone, comp, spec };
+      const list = JSON.parse(localStorage.getItem("patients") || "[]");
+      list.push(entry);
+      localStorage.setItem("patients", JSON.stringify(list));
 
-      arr.push({ name, phone, complaint, specialist, ts: Date.now() });
-
-      localStorage.setItem(key, JSON.stringify(arr));
-
-      uploadToGitHub(JSON.stringify(arr, null, 2));
-
-      alert("تم حفظ المريض ورفعه إلى GitHub (إن تم إعداد الإعدادات).");
-      loadPatientsArchive();
+      loadPatients();
     }
 
-    function loadPatientsArchive() {
-      const raw = localStorage.getItem("patientsArchive");
-      const list = document.getElementById("patientsList");
+    function loadPatients() {
+      const list = JSON.parse(localStorage.getItem("patients") || "[]");
+      const box = document.getElementById("patientsList");
 
-      if (!raw) {
-        list.innerHTML = "لا يوجد بيانات بعد.";
+      if (!list.length) {
+        box.textContent = "لا يوجد بيانات بعد.";
         return;
       }
 
-      const arr = JSON.parse(raw);
-
-      if (!arr.length) {
-        list.innerHTML = "لا يوجد بيانات بعد.";
-        return;
-      }
-
-      list.innerHTML = arr.map(p => `
-        <div style="margin-bottom:10px; padding:8px; border-bottom:1px solid #e5e7eb;">
-          <strong>${p.name}</strong> – ${p.phone}<br>
-          <span class="helper">${p.complaint}</span><br>
-          <span class="helper">الأخصائي: ${p.specialist}</span>
-        </div>
-      `).join("");
+      box.innerHTML = list.map(p =>
+        `<div>👤 ${p.name} — ${p.comp} — ${p.spec}</div>`
+      ).join("");
     }
+    loadPatients();
 
     function searchPatients() {
-      const q = document.getElementById("pSearch").value.trim().toLowerCase();
-      const raw = localStorage.getItem("patientsArchive");
-      const list = document.getElementById("patientsList");
+      const q = document.getElementById("pSearch").value.trim();
+      const list = JSON.parse(localStorage.getItem("patients") || "[]");
+      const box = document.getElementById("patientsList");
 
-      if (!raw) {
-        list.innerHTML = "لا يوجد بيانات بعد.";
-        return;
-      }
-
-      const arr = JSON.parse(raw);
-
-      const filtered = arr.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.phone.includes(q) ||
-        p.complaint.toLowerCase().includes(q) ||
-        p.specialist.toLowerCase().includes(q)
-      );
-
-      if (!filtered.length) {
-        list.innerHTML = "لا يوجد نتائج.";
-        return;
-      }
-
-      list.innerHTML = filtered.map(p => `
-        <div style="margin-bottom:10px; padding:8px; border-bottom:1px solid #e5e7eb;">
-          <strong>${p.name}</strong> – ${p.phone}<br>
-          <span class="helper">${p.complaint}</span><br>
-          <span class="helper">الأخصائي: ${p.specialist}</span>
-        </div>
-      `).join("");
+      const filtered = list.filter(p => p.name.includes(q) || p.comp.includes(q));
+      box.innerHTML = filtered.map(p =>
+        `<div>👤 ${p.name} — ${p.comp} — ${p.spec}</div>`
+      ).join("");
     }
 
     function clearLocal() {
       localStorage.clear();
-      alert("تم مسح البيانات المحلية.");
-      const list = document.getElementById("patientsList");
-      if (list) list.innerHTML = "لا يوجد بيانات بعد.";
+      loadPatients();
     }
-
-    askPassword();
-    updateHeaderDate();
-    loadExcel();
-    setRandomTerm();
   </script>
+
 </body>
 </html>
