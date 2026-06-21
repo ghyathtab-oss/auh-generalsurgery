@@ -1,410 +1,720 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>AUH General Surgery</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-
-    body {
-      font-family: "Cairo", sans-serif;
-      background: #020617;
-      color: #0f172a;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .app {
-      max-width: 480px;
-      margin: 0 auto;
-      width: 100%;
-      padding-bottom: 80px;
-    }
-
-    /* ====== HEADER (يظهر في كل الصفحات) ====== */
-
-    .header {
-      position: relative;
-      width: 100%;
-      height: 230px;
-      border-bottom-left-radius: 22px;
-      border-bottom-right-radius: 22px;
-      overflow: hidden;
-      background: #020617;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      margin-bottom: 12px;
-    }
-
-    .header-overlay {
-      position: absolute;
-      inset: 0;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.35),
-        rgba(0,0,0,0.75)
-      );
-    }
-
-    .header-logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 110px;
-      height: 110px;
-      transform: translate(-50%, -60%);
-      opacity: 0.92;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.7));
-    }
-
-    .header-date {
-      position: absolute;
-      top: 12px;
-      left: 16px;
-      color: #ffffffcc;
-      font-size: 13px;
-      font-weight: 500;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-    }
-
-    .header-title {
-      position: absolute;
-      bottom: 18px;
-      left: 16px;
-      color: white;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      text-shadow: 0 3px 10px rgba(0,0,0,0.9);
-    }
-
-    .header-title span {
-      display: block;
-      font-size: 12px;
-      font-weight: 400;
-      opacity: 0.85;
-      margin-top: 2px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#0F172A" />
+<title>AUH General Surgery – Residents System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --blue:#2563EB;
+    --cyan:#06B6D4;
+    --slate:#1E293B;
+    --slate-deep:#0F172A;
+    --bg:#F8FAFC;
+    --card:#FFFFFF;
+    --muted:#64748B;
+    --border:#E2E8F0;
+    --soft:#EEF2FF;
+    --radius:18px;
+    --maxw:480px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:'Cairo',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--slate);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .app{
+    max-width:var(--maxw);
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--bg);
+    position:relative;
+    box-shadow:0 0 40px rgba(15,23,42,.06);
+    display:flex;
+    flex-direction:column;
+  }
+  /* ===== Header ===== */
+  .header{
+    background:linear-gradient(160deg,var(--slate-deep) 0%,var(--slate) 100%);
+    color:#fff;
+    padding:18px 20px 30px;
+    border-radius:0 0 22px 22px;
+    position:sticky;
+    top:0;
+    z-index:30;
+    box-shadow:0 8px 24px rgba(15,23,42,.18);
+  }
+  .header-row{display:flex;align-items:center;justify-content:center;gap:14px;}
+  .emblem{
+    width:48px;height:48px;border-radius:14px;
+    background:linear-gradient(145deg,var(--blue),var(--cyan));
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;box-shadow:0 4px 14px rgba(37,99,235,.45);
+  }
+  .emblem svg{width:26px;height:26px;stroke:#fff;}
+  .titles{text-align:center;}
+  .titles h1{font-size:18px;font-weight:800;letter-spacing:.2px;}
+  .titles p{font-size:11px;font-weight:500;color:#94A3B8;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+  /* ===== Page container ===== */
+  .content{
+    flex:1;
+    padding:20px 16px 100px;
+    animation:fade .3s ease;
+  }
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .page{display:none;}
+  .page.active{display:block;}
+  /* ===== Cards ===== */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:18px;
+    border:1px solid var(--border);
+    box-shadow:0 2px 10px rgba(15,23,42,.04);
+    margin-bottom:16px;
+  }
+  .card-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .card-title .dot{width:7px;height:18px;border-radius:6px;background:linear-gradient(var(--blue),var(--cyan));}
+  .section-head{font-size:13px;font-weight:700;color:var(--muted);margin:6px 4px 12px;}
+  label.fld{display:block;font-size:13px;font-weight:600;color:var(--slate);margin:0 2px 6px;}
+  select,input{
+    width:100%;font-family:inherit;font-size:15px;
+    padding:13px 14px;border:1.5px solid var(--border);
+    border-radius:14px;background:#fff;color:var(--slate);
+    outline:none;transition:border-color .2s,box-shadow .2s;
+  }
+  select:focus,input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.12);}
+  .field{margin-bottom:14px;}
+  .btn{
+    width:100%;border:none;cursor:pointer;font-family:inherit;
+    font-size:15px;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    padding:14px;border-radius:14px;
+    box-shadow:0 6px 16px rgba(37,99,235,.3);
+    transition:transform .12s,box-shadow .2s;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn.ghost{background:#fff;color:var(--blue);border:1.5px solid var(--border);box-shadow:none;}
+  .btn.sm{padding:11px;font-size:14px;}
+  /* term card */
+  .term-card{
+    background:linear-gradient(145deg,var(--blue),var(--cyan));
+    color:#fff;border:none;
+  }
+  .term-card .card-title{color:#fff;}
+  .term-card .card-title .dot{background:rgba(255,255,255,.7);}
+  .term-en{font-size:20px;font-weight:800;margin-bottom:4px;}
+  .term-ar{font-size:16px;font-weight:600;opacity:.95;}
+  .term-desc{font-size:13px;opacity:.85;margin-top:8px;}
+  /* ===== Calendar ===== */
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .cal-head h2{font-size:16px;font-weight:800;}
+  .nav-btn{width:38px;height:38px;border-radius:12px;border:1.5px solid var(--border);background:#fff;color:var(--blue);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+  .dow{text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:4px 0;}
+  .cell{
+    aspect-ratio:1/1.15;border-radius:12px;background:#fff;border:1.5px solid var(--border);
+    padding:5px 3px;font-size:12px;display:flex;flex-direction:column;align-items:center;
+    cursor:default;overflow:hidden;
+  }
+  .cell.empty{background:transparent;border:none;}
+  .cell.has{background:var(--soft);border-color:#c7d2fe;cursor:pointer;}
+  .cell .num{font-weight:700;font-size:13px;}
+  .cell.has .num{color:var(--blue);}
+  .cell .who{font-size:9px;font-weight:600;color:var(--slate);margin-top:3px;text-align:center;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .cell .pgy{font-size:8px;color:var(--cyan);font-weight:700;margin-top:auto;}
+  /* states */
+  .state{text-align:center;padding:34px 16px;color:var(--muted);}
+  .state .spin{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .state.err{color:#b91c1c;}
+  .state .ico{font-size:30px;margin-bottom:8px;}
+  /* ===== Residents ===== */
+  .pgy-group{margin-bottom:18px;}
+  .pgy-label{display:inline-block;font-size:12px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--slate),var(--slate-deep));padding:4px 12px;border-radius:20px;margin-bottom:10px;}
+  .res-item{
+    display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--border);
+    border-radius:14px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:transform .1s;
+  }
+  .res-item:active{transform:scale(.98);}
+  .avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+  .res-info{flex:1;}
+  .res-info .nm{font-weight:700;font-size:15px;}
+  .res-info .sub{font-size:12px;color:var(--muted);}
+  .res-info .cnt{font-size:11px;color:var(--blue);font-weight:600;}
+  .chev{color:var(--muted);}
+  /* ===== Patients ===== */
+  .pt-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;}
+  .pt-item .nm{font-weight:700;font-size:15px;}
+  .pt-item .ph{font-size:13px;color:var(--muted);direction:ltr;text-align:right;}
+  .pt-call{width:40px;height:40px;border-radius:12px;background:var(--soft);color:var(--blue);display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+  /* ===== Tools ===== */
+  .tool-out{margin-top:14px;text-align:center;font-size:30px;font-weight:800;color:var(--blue);min-height:46px;display:flex;align-items:center;justify-content:center;}
+  .coin,.dice{font-size:48px;}
+  textarea{width:100%;font-family:inherit;font-size:15px;padding:13px 14px;border:1.5px solid var(--border);border-radius:14px;resize:vertical;min-height:90px;outline:none;}
+  textarea:focus{border-color:var(--blue);}
+  /* ===== Translator ===== */
+  .tr-result{background:var(--soft);border:1px solid #c7d2fe;border-radius:14px;padding:14px;margin-top:14px;}
+  .tr-result .en{font-size:17px;font-weight:800;color:var(--blue);}
+  .tr-result .ar{font-size:15px;font-weight:600;margin-top:2px;}
+  .tr-result .ds{font-size:13px;color:var(--muted);margin-top:6px;}
+  /* ===== About ===== */
+  .about-logo{width:74px;height:74px;border-radius:20px;background:linear-gradient(145deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 20px rgba(37,99,235,.35);}
+  .about-logo svg{width:40px;height:40px;stroke:#fff;}
+  .about h2{text-align:center;font-size:18px;font-weight:800;}
+  .about .en{text-align:center;font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:14px;}
+  .about p{font-size:14px;color:var(--slate);text-align:center;}
+  .info-row{display:flex;justify-content:space-between;padding:11px 2px;border-bottom:1px solid var(--border);font-size:14px;}
+  .info-row:last-child{border:none;}
+  .info-row .k{color:var(--muted);}
+  .info-row .v{font-weight:700;}
+  /* ===== Bottom nav ===== */
+  .nav{
+    position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+    width:100%;max-width:var(--maxw);
+    background:#fff;border-top:1px solid var(--border);
+    display:grid;grid-template-columns:repeat(6,1fr);
+    padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+    z-index:40;box-shadow:0 -4px 20px rgba(15,23,42,.06);
+  }
+  .nav button{
+    background:none;border:none;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    color:var(--muted);font-size:10px;font-weight:600;padding:4px 0;
+    transition:color .15s;
+  }
+  .nav button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;}
+  .nav button.active{color:var(--blue);}
+  /* ===== Modal ===== */
+  .overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:50;display:none;align-items:flex-end;justify-content:center;animation:fade .2s;}
+  .overlay.open{display:flex;}
+  .sheet{
+    background:#fff;width:100%;max-width:var(--maxw);
+    border-radius:22px 22px 0 0;padding:22px 20px calc(26px + env(safe-area-inset-bottom));
+    animation:up .3s cubic-bezier(.16,1,.3,1);
+  }
+  @keyframes up{from{transform:translateY(100%);}to{transform:none;}}
+  .sheet .grip{width:42px;height:5px;border-radius:5px;background:var(--border);margin:0 auto 16px;}
+  .sheet h3{font-size:17px;font-weight:800;margin-bottom:4px;}
+  .sheet .date-sub{font-size:13px;color:var(--muted);margin-bottom:16px;}
+  .detail{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+  .detail:last-of-type{border:none;}
+  .detail .lbl{font-size:13px;color:var(--muted);min-width:90px;}
+  .detail .val{font-weight:700;font-size:15px;}
+  .empty-list{text-align:center;color:var(--muted);font-size:14px;padding:24px;}
+  .badge{display:inline-block;background:var(--soft);color:var(--blue);font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;margin:0 4px 8px 0;}
+</style>
 </head>
-
 <body>
-  <div class="app">
-
-    <!-- HEADER -->
-    <div class="header">
-      <div class="header-overlay"></div>
-
-      <!-- لوغو الجراحة العامة -->
-      <img src="https://i.imgur.com/2xwqZ8F.png" class="header-logo">
-
-      <!-- التاريخ -->
-      <div class="header-date" id="headerDate"></div>
-
-      <!-- العنوان -->
-      <div class="header-title">
-        أطباء الجراحة العامة
-        <span>General Surgery Residents – AUH</span>
+<div class="app">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-row">
+      <div class="emblem" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5 21 10l-9.5 9.5a2 2 0 0 1-2.8 0l-3.7-3.7a2 2 0 0 1 0-2.8L14.5 3.5Z"/><path d="m3 21 3.5-3.5"/></svg>
+      </div>
+      <div class="titles">
+        <h1>الجراحة العامة – نظام المقيمين</h1>
+        <p>AUH General Surgery</p>
       </div>
     </div>
-    <!-- الرئيسية -->
-    <div id="screen-home" class="screen active">
+  </header>
+
+  <main class="content">
+    <!-- ===== HOME ===== -->
+    <section class="page active" id="page-home">
       <div class="card">
-        <label>اختر السنة</label>
-        <select id="yearSelect">
-          <option value="">اختر السنة</option>
-          <option value="أولى">السنة الأولى</option>
-          <option value="ثانية">السنة الثانية</option>
-          <option value="ثالثة">السنة الثالثة</option>
-          <option value="رابعة">السنة الرابعة</option>
-          <option value="خامسة">السنة الخامسة</option>
-        </select>
-
-        <label>اختر الشهر</label>
-        <input type="month" id="monthInput" />
-
-        <button class="btn-primary" id="startBtn">استعراض المناوبات</button>
-
-        <button class="btn-secondary" style="margin-top:10px;" onclick="switchScreen('patients')">
-          📁 أرشيف المرضى
+        <div class="card-title"><span class="dot"></span>عرض المناوبات الشهرية</div>
+        <div class="field">
+          <label class="fld" for="selYear">السنة</label>
+          <select id="selYear"></select>
+        </div>
+        <div class="field">
+          <label class="fld" for="selMonth">الشهر</label>
+          <select id="selMonth"></select>
+        </div>
+        <button class="btn" id="btnShow">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          عرض المناوبات
         </button>
       </div>
 
-      <!-- مصطلح اليوم -->
-      <div class="term-card">
-        <div class="term-title">مصطلح اليوم</div>
-        <div class="term-main" id="termWord">Sepsis</div>
-        <div class="term-sub" id="termDesc">الإنتان – استجابة خطيرة للعدوى قد تؤدي لفشل الأعضاء.</div>
+      <div class="card term-card">
+        <div class="card-title"><span class="dot"></span>مصطلح اليوم</div>
+        <div class="term-en" id="termEn">—</div>
+        <div class="term-ar" id="termAr">—</div>
+        <div class="term-desc" id="termDesc"></div>
       </div>
-    </div>
-    <!-- المناوبات -->
-    <div id="screen-shifts" class="screen">
-      <h3 style="font-size:16px; margin-bottom:8px;">المقيمون حسب السنة</h3>
-      <div id="residentsList" class="residents-grid"></div>
-      <div id="residentShifts" class="shifts-list"></div>
-    </div>
+    </section>
 
-    <!-- الأدوات -->
-    <div id="screen-tools" class="screen">
-      <h3 style="font-size:16px; margin-bottom:8px;">الأدوات السريعة ⚡</h3>
-      <div class="tools-grid">
-
-        <div class="tool-card">
-          <strong>🎡 عجلة القرعة</strong>
-          <textarea id="wheelNames" rows="2"></textarea>
-          <button class="btn-secondary" onclick="spinWheel()">تدوير العجلة</button>
-          <div id="wheelResult" class="helper"></div>
-        </div>
-
-        <div class="tool-card">
-          <strong>🎲 اختيار عشوائي</strong>
-          <input type="text" id="randomNames" placeholder="مثال: أحمد، سارة، علي" />
-          <button class="btn-secondary" onclick="pickRandom()">اختيار اسم عشوائي</button>
-          <div id="randomResult" class="helper"></div>
-        </div>
-
-        <div class="tool-card">
-          <strong>🪙 رمي العملة</strong>
-          <button class="btn-secondary" onclick="flipCoin()">رمي</button>
-          <div id="coinResult" class="helper"></div>
-        </div>
-
-        <div class="tool-card">
-          <strong>🎲 رمي النرد</strong>
-          <button class="btn-secondary" onclick="rollDice()">رمي</button>
-          <div id="diceResult" class="helper"></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- المترجم -->
-    <div id="screen-translator" class="screen">
-      <h3 style="font-size:16px; margin-bottom:8px;">المترجم الطبي 🩺</h3>
+    <!-- ===== SHIFTS ===== -->
+    <section class="page" id="page-shifts">
       <div class="card">
-        <label>ابحث عن مصطلح</label>
-        <input type="text" id="termInput" placeholder="Sepsis / Shock / MI ..." />
-        <button class="btn-primary" onclick="searchTerm()">بحث</button>
-        <div id="transResult" class="helper" style="margin-top:10px;"></div>
+        <div class="cal-head">
+          <button class="nav-btn" id="prevMonth">‹</button>
+          <h2 id="calTitle">—</h2>
+          <button class="nav-btn" id="nextMonth">›</button>
+        </div>
+        <div id="calBody"></div>
       </div>
-    </div>
-    <!-- أرشيف المرضى -->
-    <div id="screen-patients" class="screen">
-      <h3 style="font-size:16px; margin-bottom:8px;">📁 أرشيف المرضى</h3>
+    </section>
 
+    <!-- ===== RESIDENTS ===== -->
+    <section class="page" id="page-residents">
+      <div class="section-head">المقيمون مرتبون حسب سنة التدريب</div>
+      <div id="resBody"></div>
+    </section>
+
+    <!-- ===== PATIENTS ===== -->
+    <section class="page" id="page-patients">
       <div class="card">
-        <label>اسم المريض</label>
-        <input type="text" id="pName">
-
-        <label>رقم المريض</label>
-        <input type="text" id="pPhone">
-
-        <label>الشكاية</label>
-        <input type="text" id="pComplaint">
-
-        <label>الأخصائي</label>
-        <input type="text" id="pSpecialist">
-
-        <button class="btn-primary" onclick="savePatient()">حفظ في الأرشيف</button>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <label>بحث في الأرشيف</label>
-        <input type="text" id="pSearch" oninput="searchPatients()">
-      </div>
-
-      <div class="tools-grid" style="margin-top:16px;">
-        <div class="tool-card">
-          <strong>📚 السجل المحفوظ</strong>
-          <div id="patientsList" class="helper" style="margin-top:6px;">لا يوجد بيانات بعد.</div>
+        <div class="card-title"><span class="dot"></span>إضافة مريض</div>
+        <div class="field">
+          <label class="fld" for="ptName">اسم المريض</label>
+          <input id="ptName" type="text" placeholder="الاسم الكامل" />
         </div>
-      </div>
-    </div>
-
-    <!-- المزيد -->
-    <div id="screen-more" class="screen">
-      <h3 style="font-size:16px; margin-bottom:8px;">المزيد ☰</h3>
-      <div class="tools-grid">
-        <div class="tool-card">
-          <strong>ℹ️ حول التطبيق</strong>
-          <div class="helper">AUH General Surgery – نظام مناوبات وأدوات لمقيمي الجراحة العامة.</div>
+        <div class="field">
+          <label class="fld" for="ptPhone">رقم التواصل</label>
+          <input id="ptPhone" type="tel" inputmode="tel" placeholder="05xxxxxxxx" />
         </div>
-
-        <div class="tool-card">
-          <strong>🧹 مسح البيانات المحلية</strong><br>
-          <button class="btn-secondary" onclick="clearLocal()">مسح LocalStorage</button>
-        </div>
+        <button class="btn" id="btnSavePt">حفظ المريض</button>
       </div>
-    </div>
-  <!-- Bottom Navigation -->
-  <div class="bottom-nav">
-    <div class="nav-item active" data-target="home" onclick="switchScreen('home', event)">
-      <span>🏠</span>الرئيسية
-    </div>
-    <div class="nav-item" data-target="shifts" onclick="switchScreen('shifts', event)">
-      <span>📅</span>المناوبات
-    </div>
-    <div class="nav-item" data-target="tools" onclick="switchScreen('tools', event)">
-      <span>⚡</span>الأدوات
-    </div>
-    <div class="nav-item" data-target="translator" onclick="switchScreen('translator', event)">
-      <span>🩺</span>المترجم
-    </div>
-    <div class="nav-item" data-target="more" onclick="switchScreen('more', event)">
-      <span>☰</span>المزيد
-    </div>
+      <div class="section-head">قائمة المرضى (<span id="ptCount">0</span>)</div>
+      <div id="ptBody"></div>
+    </section>
+
+    <!-- ===== TOOLS ===== -->
+    <section class="page" id="page-tools">
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>اختيار عشوائي</div>
+        <div class="field">
+          <label class="fld" for="rndInput">أدخل الأسماء (كل اسم في سطر)</label>
+          <textarea id="rndInput" placeholder="أحمد&#10;سارة&#10;علي"></textarea>
+        </div>
+        <button class="btn sm" id="btnRandom">اختر عشوائيًا</button>
+        <div class="tool-out" id="rndOut"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>رمي عملة</div>
+        <button class="btn sm ghost" id="btnCoin">ارمِ العملة</button>
+        <div class="tool-out"><span class="coin" id="coinOut">🪙</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>رمي النرد</div>
+        <button class="btn sm ghost" id="btnDice">ارمِ النرد</button>
+        <div class="tool-out"><span class="dice" id="diceOut">🎲</span></div>
+      </div>
+    </section>
+
+    <!-- ===== TRANSLATOR ===== -->
+    <section class="page" id="page-translator">
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>المترجم الطبي</div>
+        <div class="field">
+          <input id="trInput" type="text" placeholder="ابحث عن مصطلح طبي (عربي / إنجليزي)" />
+        </div>
+        <div id="trBody"></div>
+      </div>
+    </section>
+
+    <!-- ===== MORE ===== -->
+    <section class="page" id="page-more">
+      <div class="card about">
+        <div class="about-logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5 21 10l-9.5 9.5a2 2 0 0 1-2.8 0l-3.7-3.7a2 2 0 0 1 0-2.8L14.5 3.5Z"/><path d="m3 21 3.5-3.5"/></svg>
+        </div>
+        <h2>نظام المقيمين</h2>
+        <div class="en">AUH GENERAL SURGERY</div>
+        <p>نظام إدارة مناوبات وبيانات مقيمي قسم الجراحة العامة. يقرأ جدول المناوبات الشهري مباشرة من ملف Excel المخزّن على GitHub.</p>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>معلومات النظام</div>
+        <div class="info-row"><span class="k">القسم</span><span class="v">الجراحة العامة</span></div>
+        <div class="info-row"><span class="k">مصدر البيانات</span><span class="v">GitHub Excel</span></div>
+        <div class="info-row"><span class="k">الإصدار</span><span class="v">1.0.0</span></div>
+        <div class="info-row"><span class="k">المنصة</span><span class="v">GitHub Pages</span></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <nav class="nav" id="nav">
+    <button data-page="home" class="active">
+      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      الرئيسية
+    </button>
+    <button data-page="shifts">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      المناوبات
+    </button>
+    <button data-page="residents">
+      <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      المقيمون
+    </button>
+    <button data-page="patients">
+      <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+      المرضى
+    </button>
+    <button data-page="tools">
+      <svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6a2 2 0 1 0 2.8 2.8l6-6a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.2-2.2z"/></svg>
+      الأدوات
+    </button>
+    <button data-page="translator">
+      <svg viewBox="0 0 24 24"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>
+      المترجم
+    </button>
+  </nav>
+</div>
+
+<!-- DAY MODAL -->
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true">
+    <div class="grip"></div>
+    <div id="sheetContent"></div>
   </div>
+</div>
 
-  <script>
-    /* ============================
-       كلمة السر
-    ============================ */
-    function askPassword() {
-      const p = prompt("أدخل كلمة السر:");
-      if (p !== "1") askPassword();
+<script>
+/* ============ CONFIG ============ */
+const EXCEL_URL = "https://raw.githubusercontent.com/ghyathtab-oss/auh-generalsurgery/main/shifts.xlsx";
+
+/*
+  نموذج صيغة ملف Excel (shifts.xlsx) :
+  ┌────────────┬──────────┬──────────┬──────┐
+  │ A: التاريخ  │ B: Shift │ C: اسم   │ D:PGY│
+  ├────────────┼──────────┼──────────┼──────┤
+  │ 01/07/2026 │ مناوبة   │ أحمد     │ PGY1 │
+  │ 02/07/2026 │ مناوبة   │ سارة     │ PGY2 │
+  │ 03/07/2026 │ مناوبة   │ علي      │ PGY3 │
+  └────────────┴──────────┴──────────┴──────┘
+*/
+
+const MONTHS_AR = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const DOW_AR = ["أحد","إثنين","ثلاثاء","أربعاء","خميس","جمعة","سبت"];
+
+/* ============ MEDICAL TERMS ============ */
+const TERMS = [
+  {en:"Appendectomy", ar:"استئصال الزائدة الدودية", ds:"عملية جراحية لإزالة الزائدة الدودية الملتهبة."},
+  {en:"Cholecystectomy", ar:"استئصال المرارة", ds:"إزالة المرارة، غالبًا بالمنظار."},
+  {en:"Anastomosis", ar:"المفاغرة", ds:"وصل جزأين من عضو أنبوبي جراحيًا."},
+  {en:"Laparotomy", ar:"فتح البطن", ds:"شق جراحي في جدار البطن للوصول للأعضاء."},
+  {en:"Hernia", ar:"الفتق", ds:"بروز عضو من خلال جدار العضلة الحاوية له."},
+  {en:"Peritonitis", ar:"التهاب الصفاق", ds:"التهاب الغشاء المبطّن لتجويف البطن."},
+  {en:"Hemostasis", ar:"الإرقاء", ds:"عملية إيقاف النزيف."},
+  {en:"Suture", ar:"الخياطة الجراحية", ds:"خيط يُستخدم لإغلاق الجروح والشقوق."},
+  {en:"Sepsis", ar:"الإنتان", ds:"استجابة جسدية خطيرة لعدوى منتشرة في الدم."},
+  {en:"Ileus", ar:"العلوص", ds:"توقف الحركة الطبيعية للأمعاء."},
+  {en:"Drain", ar:"النزّاحة", ds:"أنبوب لتصريف السوائل من موضع الجراحة."},
+  {en:"Debridement", ar:"التنضير", ds:"إزالة الأنسجة الميتة أو الملوثة من الجرح."},
+  {en:"Stoma", ar:"الفغرة", ds:"فتحة جراحية في البطن لتصريف الفضلات."},
+  {en:"Resection", ar:"الاستئصال", ds:"إزالة جزء من عضو أو نسيج جراحيًا."},
+  {en:"Triage", ar:"الفرز", ds:"ترتيب أولوية علاج المرضى حسب الخطورة."}
+];
+
+/* ============ STATE ============ */
+let SHIFTS = [];          // {date:Date, shift, resident, pgy}
+let dataLoaded = false;
+let dataError = false;
+let viewYear, viewMonth;  // calendar view
+
+/* ============ NAVIGATION ============ */
+const pages = document.querySelectorAll('.page');
+const navBtns = document.querySelectorAll('#nav button');
+function go(page){
+  pages.forEach(p=>p.classList.toggle('active', p.id==='page-'+page));
+  navBtns.forEach(b=>b.classList.toggle('active', b.dataset.page===page));
+  window.scrollTo(0,0);
+  if(page==='shifts') renderCalendar();
+  if(page==='residents') renderResidents();
+}
+navBtns.forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+
+/* ============ HOME SELECTORS ============ */
+const selYear = document.getElementById('selYear');
+const selMonth = document.getElementById('selMonth');
+(function initSelectors(){
+  const now = new Date();
+  const cy = now.getFullYear();
+  for(let y=cy-1;y<=cy+2;y++){
+    const o=document.createElement('option');o.value=y;o.textContent=y;
+    if(y===cy)o.selected=true;selYear.appendChild(o);
+  }
+  MONTHS_AR.forEach((m,i)=>{
+    const o=document.createElement('option');o.value=i;o.textContent=m;
+    if(i===now.getMonth())o.selected=true;selMonth.appendChild(o);
+  });
+  viewYear=cy;viewMonth=now.getMonth();
+})();
+document.getElementById('btnShow').addEventListener('click',()=>{
+  viewYear=parseInt(selYear.value);
+  viewMonth=parseInt(selMonth.value);
+  go('shifts');
+});
+
+/* ============ TERM OF THE DAY ============ */
+(function dailyTerm(){
+  const day = Math.floor(Date.now()/86400000);
+  const t = TERMS[day % TERMS.length];
+  document.getElementById('termEn').textContent=t.en;
+  document.getElementById('termAr').textContent=t.ar;
+  document.getElementById('termDesc').textContent=t.ds;
+})();
+
+/* ============ LOAD EXCEL ============ */
+function parseDate(v){
+  if(v instanceof Date) return v;
+  if(typeof v==='number'){ // excel serial
+    const d = XLSX.SSF.parse_date_code(v);
+    if(d) return new Date(d.y, d.m-1, d.d);
+  }
+  if(typeof v==='string'){
+    const m = v.trim().match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+    if(m) return new Date(+m[3], +m[2]-1, +m[1]);
+    const d = new Date(v);
+    if(!isNaN(d)) return d;
+  }
+  return null;
+}
+async function loadData(){
+  try{
+    const res = await fetch(EXCEL_URL,{cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const buf = await res.arrayBuffer();
+    const wb = XLSX.read(buf,{type:"array"});
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws,{header:1,blankrows:false});
+    SHIFTS = [];
+    rows.forEach((r,i)=>{
+      if(!r||!r[0]) return;
+      const first = String(r[0]).toLowerCase();
+      if(i===0 && (first.includes('date')||first.includes('تاريخ'))) return; // skip header
+      const d = parseDate(r[0]);
+      if(!d) return;
+      SHIFTS.push({
+        date:d,
+        shift:(r[1]??'مناوبة').toString().trim(),
+        resident:(r[2]??'—').toString().trim(),
+        pgy:(r[3]??'—').toString().trim().toUpperCase()
+      });
+    });
+    dataLoaded=true;dataError=false;
+  }catch(e){
+    console.log("[v0] Excel load failed:", e.message);
+    dataError=true;dataLoaded=true;
+  }
+}
+
+/* ============ CALENDAR ============ */
+function shiftsFor(y,m,d){
+  return SHIFTS.filter(s=>s.date.getFullYear()===y && s.date.getMonth()===m && s.date.getDate()===d);
+}
+function renderCalendar(){
+  const title=document.getElementById('calTitle');
+  const body=document.getElementById('calBody');
+  title.textContent = MONTHS_AR[viewMonth]+" "+viewYear;
+
+  if(!dataLoaded){
+    body.innerHTML='<div class="state"><div class="spin"></div>جاري تحميل بيانات المناوبات…</div>';
+    return;
+  }
+  if(dataError){
+    body.innerHTML='<div class="state err"><div class="ico">⚠️</div>تعذّر تحميل ملف المناوبات من GitHub.<br/>تأكد من رفع <b>shifts.xlsx</b> إلى المستودع.<br/><br/><button class="btn sm" onclick="retryLoad()">إعادة المحاولة</button></div>';
+    return;
+  }
+
+  const first=new Date(viewYear,viewMonth,1).getDay();
+  const days=new Date(viewYear,viewMonth+1,0).getDate();
+  let html='<div class="cal-grid">';
+  DOW_AR.forEach(d=>html+='<div class="dow">'+d+'</div>');
+  for(let i=0;i<first;i++) html+='<div class="cell empty"></div>';
+  for(let d=1;d<=days;d++){
+    const list=shiftsFor(viewYear,viewMonth,d);
+    if(list.length){
+      const main=list[0];
+      html+='<div class="cell has" data-day="'+d+'"><span class="num">'+d+'</span><span class="who">'+main.resident+'</span><span class="pgy">'+main.pgy+(list.length>1?' +'+(list.length-1):'')+'</span></div>';
+    }else{
+      html+='<div class="cell"><span class="num">'+d+'</span></div>';
     }
-    askPassword();
+  }
+  html+='</div>';
+  const total = SHIFTS.filter(s=>s.date.getFullYear()===viewYear && s.date.getMonth()===viewMonth).length;
+  if(total===0){
+    html+='<div class="state" style="padding:18px"><div class="ico">📭</div>لا توجد مناوبات مسجّلة لهذا الشهر.</div>';
+  }
+  body.innerHTML=html;
+  body.querySelectorAll('.cell.has').forEach(c=>{
+    c.addEventListener('click',()=>openDay(parseInt(c.dataset.day)));
+  });
+}
+function retryLoad(){
+  dataLoaded=false;dataError=false;renderCalendar();
+  loadData().then(()=>{renderCalendar();});
+}
+document.getElementById('prevMonth').addEventListener('click',()=>{
+  viewMonth--; if(viewMonth<0){viewMonth=11;viewYear--;} renderCalendar();
+});
+document.getElementById('nextMonth').addEventListener('click',()=>{
+  viewMonth++; if(viewMonth>11){viewMonth=0;viewYear++;} renderCalendar();
+});
 
-    /* ============================
-       التاريخ الحي
-    ============================ */
-    function updateHeaderDate() {
-      const d = new Date();
-      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-      document.getElementById("headerDate").textContent =
-        `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
-    }
-    updateHeaderDate();
+/* ============ DAY MODAL ============ */
+const overlay=document.getElementById('overlay');
+const sheetContent=document.getElementById('sheetContent');
+function openDay(d){
+  const list=shiftsFor(viewYear,viewMonth,d);
+  const dateObj=new Date(viewYear,viewMonth,d);
+  let html='<h3>'+d+' '+MONTHS_AR[viewMonth]+' '+viewYear+'</h3>';
+  html+='<div class="date-sub">'+DOW_AR[dateObj.getDay()]+'</div>';
+  list.forEach(s=>{
+    html+='<div class="detail"><span class="lbl">المقيم</span><span class="val">'+s.resident+'</span></div>';
+    html+='<div class="detail"><span class="lbl">السنة</span><span class="val">'+s.pgy+'</span></div>';
+    html+='<div class="detail"><span class="lbl">نوع المناوبة</span><span class="val">'+s.shift+'</span></div>';
+    if(list.length>1) html+='<div style="height:10px"></div>';
+  });
+  sheetContent.innerHTML=html;
+  overlay.classList.add('open');
+}
+overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('open');});
 
-    /* ============================
-       مصطلح طبي عشوائي
-    ============================ */
-    function setRandomTerm() {
-      const terms = [
-        { en: "Sepsis", ar: "الإنتان", desc: "استجابة خطيرة للعدوى قد تؤدي لفشل الأعضاء." },
-        { en: "Shock", ar: "الصدمة", desc: "هبوط حاد في التروية الدموية يهدد الحياة." },
-        { en: "MI", ar: "احتشاء عضلة القلب", desc: "انقطاع التروية عن جزء من القلب." },
-        { en: "ARDS", ar: "متلازمة الضائقة التنفسية", desc: "فشل تنفسي حاد يحتاج دعم أكسجة." },
-        { en: "DVT", ar: "الخثار الوريدي العميق", desc: "جلطة في الأوردة العميقة غالبًا في الساق." }
-      ];
+/* ============ RESIDENTS ============ */
+function pgyRank(p){
+  const m=String(p).match(/(\d+)/);
+  return m?parseInt(m[1]):99;
+}
+function renderResidents(){
+  const body=document.getElementById('resBody');
+  if(!dataLoaded){body.innerHTML='<div class="state"><div class="spin"></div>جاري التحميل…</div>';return;}
+  if(dataError){body.innerHTML='<div class="state err"><div class="ico">⚠️</div>تعذّر تحميل البيانات.<br/><br/><button class="btn sm" onclick="retryLoad2()">إعادة المحاولة</button></div>';return;}
 
-      const t = terms[Math.floor(Math.random() * terms.length)];
-      document.getElementById("termWord").textContent = t.en;
-      document.getElementById("termDesc").textContent = `${t.ar} – ${t.desc}`;
-    }
-    setRandomTerm();
+  // unique residents
+  const map={};
+  SHIFTS.forEach(s=>{
+    const key=s.resident+'|'+s.pgy;
+    if(!map[key]) map[key]={name:s.resident,pgy:s.pgy,count:0};
+    map[key].count++;
+  });
+  const residents=Object.values(map);
+  if(!residents.length){body.innerHTML='<div class="state"><div class="ico">👥</div>لا يوجد مقيمون في البيانات.</div>';return;}
 
-    /* ============================
-       التنقل بين الصفحات
-    ============================ */
-    function switchScreen(screen, event) {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById("screen-" + screen).classList.add("active");
+  // group by pgy
+  const groups={};
+  residents.forEach(r=>{(groups[r.pgy]=groups[r.pgy]||[]).push(r);});
+  const keys=Object.keys(groups).sort((a,b)=>pgyRank(a)-pgyRank(b));
+  let html='';
+  keys.forEach(k=>{
+    html+='<div class="pgy-group"><span class="pgy-label">'+k+'</span>';
+    groups[k].sort((a,b)=>a.name.localeCompare(b.name,'ar')).forEach(r=>{
+      const initial=(r.name[0]||'?');
+      html+='<div class="res-item" data-name="'+encodeURIComponent(r.name)+'"><div class="avatar">'+initial+'</div><div class="res-info"><div class="nm">'+r.name+'</div><div class="cnt">'+r.count+' مناوبة</div></div><span class="chev">‹</span></div>';
+    });
+    html+='</div>';
+  });
+  body.innerHTML=html;
+  body.querySelectorAll('.res-item').forEach(el=>{
+    el.addEventListener('click',()=>openResident(decodeURIComponent(el.dataset.name)));
+  });
+}
+function retryLoad2(){
+  dataLoaded=false;dataError=false;renderResidents();
+  loadData().then(()=>{renderResidents();});
+}
+function openResident(name){
+  const list=SHIFTS.filter(s=>s.resident===name).sort((a,b)=>a.date-b.date);
+  let html='<h3>'+name+'</h3>';
+  html+='<div class="date-sub">'+list.length+' مناوبة إجمالاً</div>';
+  if(!list.length){html+='<div class="empty-list">لا توجد مناوبات.</div>';}
+  else{
+    list.forEach(s=>{
+      const d=s.date;
+      html+='<div class="detail"><span class="lbl">'+d.getDate()+' '+MONTHS_AR[d.getMonth()]+' '+d.getFullYear()+'</span><span class="val">'+s.shift+' · '+s.pgy+'</span></div>';
+    });
+  }
+  sheetContent.innerHTML=html;
+  overlay.classList.add('open');
+}
 
-      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
-      if (event) event.currentTarget.classList.add("active");
-    }
+/* ============ PATIENTS (localStorage) ============ */
+const PT_KEY='auh_patients';
+function getPatients(){try{return JSON.parse(localStorage.getItem(PT_KEY))||[];}catch{return [];}}
+function renderPatients(){
+  const body=document.getElementById('ptBody');
+  const list=getPatients();
+  document.getElementById('ptCount').textContent=list.length;
+  if(!list.length){body.innerHTML='<div class="empty-list">لا يوجد مرضى محفوظون بعد.</div>';return;}
+  body.innerHTML=list.map(p=>(
+    '<div class="pt-item"><div style="flex:1"><div class="nm">'+p.name+'</div><div class="ph">'+p.phone+'</div></div>'+
+    '<a class="pt-call" href="tel:'+p.phone+'" aria-label="اتصال"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></a></div>'
+  )).join('');
+}
+document.getElementById('btnSavePt').addEventListener('click',()=>{
+  const name=document.getElementById('ptName').value.trim();
+  const phone=document.getElementById('ptPhone').value.trim();
+  if(!name||!phone){alert('يرجى إدخال الاسم ورقم التواصل.');return;}
+  const list=getPatients();
+  list.unshift({name,phone,ts:Date.now()});
+  localStorage.setItem(PT_KEY,JSON.stringify(list));
+  document.getElementById('ptName').value='';
+  document.getElementById('ptPhone').value='';
+  renderPatients();
+});
+renderPatients();
 
-    /* ============================
-       أدوات: عجلة – عشوائي – نرد – عملة
-    ============================ */
-    function spinWheel() {
-      const names = document.getElementById("wheelNames").value.split(/[\n,،]+/).map(s => s.trim()).filter(Boolean);
-      if (!names.length) return;
-      const pick = names[Math.floor(Math.random() * names.length)];
-      document.getElementById("wheelResult").textContent = "النتيجة: " + pick;
-    }
+/* ============ TOOLS ============ */
+document.getElementById('btnRandom').addEventListener('click',()=>{
+  const names=document.getElementById('rndInput').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const out=document.getElementById('rndOut');
+  if(!names.length){out.textContent='—';return;}
+  let i=0;const iv=setInterval(()=>{
+    out.textContent=names[Math.floor(Math.random()*names.length)];
+    if(++i>10){clearInterval(iv);out.textContent='🎯 '+names[Math.floor(Math.random()*names.length)];}
+  },70);
+});
+document.getElementById('btnCoin').addEventListener('click',()=>{
+  const out=document.getElementById('coinOut');
+  let i=0;const iv=setInterval(()=>{
+    out.textContent=Math.random()<.5?'🪙':'⚪';
+    if(++i>8){clearInterval(iv);out.textContent=Math.random()<.5?'صورة':'كتابة';}
+  },80);
+});
+document.getElementById('btnDice').addEventListener('click',()=>{
+  const faces=['⚀','⚁','⚂','⚃','⚄','⚅'];
+  const out=document.getElementById('diceOut');
+  let i=0;const iv=setInterval(()=>{
+    out.textContent=faces[Math.floor(Math.random()*6)];
+    if(++i>10){clearInterval(iv);}
+  },70);
+});
 
-    function pickRandom() {
-      const names = document.getElementById("randomNames").value.split(/[,،]+/).map(s => s.trim()).filter(Boolean);
-      if (!names.length) return;
-      const pick = names[Math.floor(Math.random() * names.length)];
-      document.getElementById("randomResult").textContent = "النتيجة: " + pick;
-    }
+/* ============ TRANSLATOR ============ */
+const trInput=document.getElementById('trInput');
+const trBody=document.getElementById('trBody');
+function renderTranslator(q){
+  q=q.trim().toLowerCase();
+  if(!q){trBody.innerHTML='<div class="empty-list">اكتب مصطلحًا للبحث…</div>';return;}
+  const res=TERMS.filter(t=>t.en.toLowerCase().includes(q)||t.ar.includes(q));
+  if(!res.length){trBody.innerHTML='<div class="empty-list">لا توجد نتائج مطابقة.</div>';return;}
+  trBody.innerHTML=res.map(t=>(
+    '<div class="tr-result"><div class="en">'+t.en+'</div><div class="ar">'+t.ar+'</div><div class="ds">'+t.ds+'</div></div>'
+  )).join('');
+}
+trInput.addEventListener('input',e=>renderTranslator(e.target.value));
+renderTranslator('');
 
-    function flipCoin() {
-      const r = Math.random() < 0.5 ? "وجه" : "كتابة";
-      document.getElementById("coinResult").textContent = r;
-    }
-
-    function rollDice() {
-      const r = Math.floor(Math.random() * 6) + 1;
-      document.getElementById("diceResult").textContent = "🎲 " + r;
-    }
-
-    /* ============================
-       المترجم الطبي
-    ============================ */
-    function searchTerm() {
-      const q = document.getElementById("termInput").value.toLowerCase().trim();
-      if (!q) return;
-
-      const dict = {
-        sepsis: "الإنتان – استجابة خطيرة للعدوى.",
-        shock: "الصدمة – هبوط حاد في التروية.",
-        mi: "احتشاء عضلة القلب – انقطاع التروية.",
-        ards: "متلازمة الضائقة التنفسية – فشل تنفسي حاد.",
-        dvt: "الخثار الوريدي العميق – جلطة في الساق."
-      };
-
-      document.getElementById("transResult").textContent =
-        dict[q] || "غير موجود في القاموس.";
-    }
-
-    /* ============================
-       أرشيف المرضى
-    ============================ */
-    function savePatient() {
-      const name = document.getElementById("pName").value.trim();
-      const phone = document.getElementById("pPhone").value.trim();
-      const comp = document.getElementById("pComplaint").value.trim();
-      const spec = document.getElementById("pSpecialist").value.trim();
-
-      if (!name) return;
-
-      const entry = { name, phone, comp, spec };
-      const list = JSON.parse(localStorage.getItem("patients") || "[]");
-      list.push(entry);
-      localStorage.setItem("patients", JSON.stringify(list));
-
-      loadPatients();
-    }
-
-    function loadPatients() {
-      const list = JSON.parse(localStorage.getItem("patients") || "[]");
-      const box = document.getElementById("patientsList");
-
-      if (!list.length) {
-        box.textContent = "لا يوجد بيانات بعد.";
-        return;
-      }
-
-      box.innerHTML = list.map(p =>
-        `<div>👤 ${p.name} — ${p.comp} — ${p.spec}</div>`
-      ).join("");
-    }
-    loadPatients();
-
-    function searchPatients() {
-      const q = document.getElementById("pSearch").value.trim();
-      const list = JSON.parse(localStorage.getItem("patients") || "[]");
-      const box = document.getElementById("patientsList");
-
-      const filtered = list.filter(p => p.name.includes(q) || p.comp.includes(q));
-      box.innerHTML = filtered.map(p =>
-        `<div>👤 ${p.name} — ${p.comp} — ${p.spec}</div>`
-      ).join("");
-    }
-
-    function clearLocal() {
-      localStorage.clear();
-      loadPatients();
-    }
-  </script>
-
+/* ============ INIT ============ */
+loadData().then(()=>{
+  if(document.getElementById('page-shifts').classList.contains('active')) renderCalendar();
+  if(document.getElementById('page-residents').classList.contains('active')) renderResidents();
+});
+</script>
 </body>
 </html>
