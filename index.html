@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>AUH General Surgery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: "Cairo", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+      padding-bottom: 70px;
+    }
+    .app-header {
+      padding: 18px 16px 8px;
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+    .logo span {
+      display:block;
+      font-size: 11px;
+      color:#9ca3af;
+      margin-top:2px;
+    }
+    .screen {
+      padding: 8px 16px 16px;
+      display:none;
+    }
+    .screen.active { display:block; }
+    .card {
+      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(76,29,149,0.7));
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
+      border: 1px solid rgba(129,140,248,0.5);
+    }
+    label {
+      font-size: 13px;
+      color:#9ca3af;
+      margin-bottom:4px;
+      display:block;
+    }
+    select, input {
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid #4b5563;
+      background:rgba(15,23,42,0.95);
+      color:#e5e7eb;
+      font-size:14px;
+      margin-bottom:10px;
+    }
+    .btn-primary {
+      width:100%;
+      padding:12px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,#6366f1,#22d3ee);
+      color:white;
+      font-size:15px;
+      font-weight:700;
+      box-shadow:0 14px 32px rgba(56,189,248,0.6);
+    }
+    .helper {
+      font-size:12px;
+      color:#9ca3af;
+      margin-top:6px;
+    }
+    .bottom-nav {
+      position:fixed;
+      bottom:0; left:0; right:0;
+      max-width:480px;
+      margin:0 auto;
+      background:rgba(15,23,42,0.98);
+      border-top:1px solid #1f2937;
+      display:flex;
+      justify-content:space-around;
+      padding:6px 0 4px;
+      backdrop-filter:blur(16px);
+    }
+    .nav-item {
+      flex:1;
+      text-align:center;
+      color:#6b7280;
+      font-size:11px;
+      padding:4px 0;
+    }
+    .nav-item span {
+      display:block;
+      font-size:18px;
+    }
+    .nav-item.active { color:#e5e7eb; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="app-header">
+      <div class="logo">
+        AUH GENERAL SURGERY
+        <span>Doctor Shifts · Tools · Medical Utilities</span>
+      </div>
+    </div>
+
+    <!-- الرئيسية -->
+    <div id="screen-home" class="screen active">
+      <div class="card">
+        <label>اختر السنة</label>
+        <select id="yearSelect">
+          <option value="">اختر السنة</option>
+          <option value="أولى">السنة الأولى</option>
+          <option value="ثانية">السنة الثانية</option>
+          <option value="ثالثة">السنة الثالثة</option>
+          <option value="رابعة">السنة الرابعة</option>
+          <option value="خامسة">السنة الخامسة</option>
+        </select>
+
+        <label>اختر الشهر</label>
+        <input type="month" id="monthInput" />
+
+        <button class="btn-primary" id="startBtn">استعراض المناوبات</button>
+        <div class="helper">التطبيق مخصص لمقيمي الجراحة العامة في AUH.</div>
+      </div>
+    </div>
+
+    <!-- المناوبات -->
+    <div id="screen-shifts" class="screen">
+      <h3 style="font-size:16px; margin-bottom:8px;">المقيمون حسب السنة</h3>
+      <div id="residentsList"></div>
+      <div id="residentShifts" style="margin-top:12px;"></div>
+    </div>
+
+    <!-- الأدوات -->
+    <div id="screen-tools" class="screen">
+      <h3 style="font-size:16px; margin-bottom:8px;">الأدوات السريعة ⚡</h3>
+    </div>
+
+    <!-- المترجم -->
+    <div id="screen-translator" class="screen">
+      <h3 style="font-size:16px; margin-bottom:8px;">المترجم الطبي 🩺</h3>
+    </div>
+
+    <!-- المزيد -->
+    <div id="screen-more" class="screen">
+      <h3 style="font-size:16px; margin-bottom:8px;">المزيد ☰</h3>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active" data-target="home" onclick="switchScreen('home', event)">
+      <span>🏠</span>الرئيسية
+    </div>
+    <div class="nav-item" data-target="shifts" onclick="switchScreen('shifts', event)">
+      <span>📅</span>المناوبات
+    </div>
+    <div class="nav-item" data-target="tools" onclick="switchScreen('tools', event)">
+      <span>⚡</span>الأدوات
+    </div>
+    <div class="nav-item" data-target="translator" onclick="switchScreen('translator', event)">
+      <span>🩺</span>المترجم
+    </div>
+    <div class="nav-item" data-target="more" onclick="switchScreen('more', event)">
+      <span>☰</span>المزيد
+    </div>
+  </div>
+
+  <script>
+    function switchScreen(target, ev) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("screen-" + target).classList.add("active");
+
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+      if (ev && ev.currentTarget) ev.currentTarget.classList.add("active");
+    }
+  </script>
+</body>
+</html>
