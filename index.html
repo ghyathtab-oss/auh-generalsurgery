@@ -213,6 +213,52 @@
   .detail .val{font-weight:700;font-size:15px;}
   .empty-list{text-align:center;color:var(--muted);font-size:14px;padding:24px;}
   .badge{display:inline-block;background:var(--soft);color:var(--blue);font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;margin:0 4px 8px 0;}
+  /* ===== Patients v2 ===== */
+  .pt-search{position:relative;margin-bottom:14px;}
+  .pt-search svg{position:absolute;top:50%;left:14px;transform:translateY(-50%);width:17px;height:17px;color:var(--muted);}
+  .pt-search input{padding-left:40px;}
+  .pt-item2{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;}
+  .pt-item2 .row1{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .pt-item2 .nm{font-weight:700;font-size:15px;}
+  .pt-item2 .dt{font-size:11px;color:var(--muted);white-space:nowrap;}
+  .pt-item2 .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .pt-item2 .tag{font-size:11px;font-weight:600;color:var(--slate);background:var(--soft);padding:3px 9px;border-radius:10px;}
+  .pt-item2 .tag.ph{color:var(--blue);direction:ltr;display:inline-block;}
+  .sync-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:10px;justify-content:center;}
+  .sync-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;}
+  .sync-dot.ok{background:#16A34A;}
+  .sync-dot.bad{background:#DC2626;}
+  .sync-dot.busy{background:#F59E0B;animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .save-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;}
+  /* ===== Departments ===== */
+  .dept-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .dept-card{
+    background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px 12px;
+    text-align:center;cursor:pointer;transition:transform .1s;
+  }
+  .dept-card:active{transform:scale(.97);}
+  .dept-card .ic{font-size:30px;margin-bottom:8px;}
+  .dept-card .nm{font-weight:700;font-size:14px;}
+  .dept-card .ct{font-size:11px;color:var(--muted);margin-top:3px;}
+  .duty-item{display:flex;align-items:center;gap:12px;background:var(--soft);border-radius:14px;padding:12px 14px;margin-bottom:8px;}
+  .duty-item .avatar{width:38px;height:38px;font-size:14px;}
+  .duty-item .nm{font-weight:700;font-size:14px;}
+  .duty-item .pgy{font-size:11px;color:var(--blue);font-weight:700;}
+  /* ===== Settings (GitHub sync) ===== */
+  .settings-grid{display:flex;flex-direction:column;gap:10px;}
+  .toggle-pass{position:relative;}
+  .toggle-pass button{position:absolute;left:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;padding:6px;}
+  /* ===== Translator v2 ===== */
+  .tr-result .abbr{display:inline-block;font-size:11px;font-weight:800;color:var(--cyan);background:#ECFEFF;padding:2px 9px;border-radius:8px;margin-top:8px;}
+  .tr-result .ex{font-size:13px;color:var(--slate);margin-top:8px;background:#fff;border-radius:10px;padding:9px 11px;border:1px solid var(--border);}
+  .tr-result .ex b{color:var(--blue);font-size:11px;display:block;margin-bottom:3px;}
+  .tr-result .syn{font-size:12px;color:var(--muted);margin-top:8px;}
+  .tr-result .syn b{color:var(--slate);}
+  /* ===== Residents v2 ===== */
+  .res-call{width:38px;height:38px;border-radius:11px;background:var(--soft);color:var(--blue);display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;}
+  .detail .call-btn{margin-right:auto;width:36px;height:36px;border-radius:10px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;}
 </style>
 </head>
 <body>
@@ -249,12 +295,34 @@
         </button>
       </div>
 
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>تواصل مع قسم</div>
+        <div class="section-head" style="margin:0 0 12px">معرفة المناوب الحالي في كل قسم والاتصال به مباشرة</div>
+        <button class="btn ghost" id="btnDepartments">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          عرض الأقسام
+        </button>
+      </div>
+
       <div class="card term-card">
         <div class="card-title"><span class="dot"></span>مصطلح اليوم</div>
         <div class="term-en" id="termEn">—</div>
         <div class="term-ar" id="termAr">—</div>
         <div class="term-desc" id="termDesc"></div>
       </div>
+    </section>
+
+    <!-- ===== DEPARTMENTS ===== -->
+    <section class="page" id="page-departments">
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>الأقسام</div>
+        <div class="section-head" style="margin:0 0 12px">اضغط على القسم لمعرفة المناوب الحالي حسب السنة</div>
+        <div class="dept-grid" id="deptGrid"></div>
+      </div>
+      <button class="btn ghost sm" id="btnBackHome" style="margin-top:4px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        رجوع للرئيسية
+      </button>
     </section>
 
     <!-- ===== SHIFTS ===== -->
@@ -271,7 +339,7 @@
 
     <!-- ===== RESIDENTS ===== -->
     <section class="page" id="page-residents">
-      <div class="section-head"> المقيمون مرتبون حسب الـسـنـة </div>
+      <div class="section-head">المقيمون مرتبون حسب سنة التدريب</div>
       <div id="resBody"></div>
     </section>
 
@@ -283,13 +351,32 @@
           <label class="fld" for="ptName">اسم المريض</label>
           <input id="ptName" type="text" placeholder="الاسم الكامل" />
         </div>
+        <div class="field-row">
+          <div class="field">
+            <label class="fld" for="ptPhone">رقم التواصل</label>
+            <input id="ptPhone" type="tel" inputmode="tel" placeholder="05xxxxxxxx" />
+          </div>
+          <div class="field">
+            <label class="fld" for="ptDate">التاريخ</label>
+            <input id="ptDate" type="date" />
+          </div>
+        </div>
         <div class="field">
-          <label class="fld" for="ptPhone">رقم التواصل</label>
-          <input id="ptPhone" type="tel" inputmode="tel" placeholder="05xxxxxxxx" />
+          <label class="fld" for="ptComplaint">الشكاية</label>
+          <input id="ptComplaint" type="text" placeholder="سبب المراجعة" />
+        </div>
+        <div class="field">
+          <label class="fld" for="ptConsultant">اسم الأخصائي</label>
+          <input id="ptConsultant" type="text" placeholder="الأخصائي المسؤول" />
         </div>
         <button class="btn" id="btnSavePt">حفظ المريض</button>
+        <div class="sync-row" id="syncRow"><span class="sync-dot" id="syncDot"></span><span id="syncText">الحفظ محليًا فقط</span></div>
       </div>
       <div class="section-head">قائمة المرضى (<span id="ptCount">0</span>)</div>
+      <div class="pt-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="ptSearch" type="text" placeholder="ابحث بالاسم أو الرقم أو الشكاية…" />
+      </div>
       <div id="ptBody"></div>
     </section>
 
@@ -341,8 +428,35 @@
         <div class="card-title"><span class="dot"></span>معلومات النظام</div>
         <div class="info-row"><span class="k">القسم</span><span class="v">الجراحة العامة</span></div>
         <div class="info-row"><span class="k">مصدر البيانات</span><span class="v">GitHub Excel</span></div>
-        <div class="info-row"><span class="k">الإصدار</span><span class="v">1.0.0</span></div>
+        <div class="info-row"><span class="k">الإصدار</span><span class="v">1.1.0</span></div>
         <div class="info-row"><span class="k">المنصة</span><span class="v">GitHub Pages</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>حفظ أرشيف المرضى على GitHub</div>
+        <div class="section-head" style="margin:0 0 12px">اختياري — يتيح حفظ ملف data/patients.json داخل المستودع تلقائيًا عند كل إضافة أو تعديل. التوكن يُحفظ على هذا الجهاز فقط ولا يُرسل لأي جهة سوى GitHub مباشرة.</div>
+        <div class="settings-grid">
+          <div class="field" style="margin:0">
+            <label class="fld" for="ghOwner">مالك المستودع (Owner)</label>
+            <input id="ghOwner" type="text" placeholder="ghyathtab-oss" />
+          </div>
+          <div class="field" style="margin:0">
+            <label class="fld" for="ghRepo">اسم المستودع (Repo)</label>
+            <input id="ghRepo" type="text" placeholder="auh-generalsurgery" />
+          </div>
+          <div class="field" style="margin:0">
+            <label class="fld" for="ghBranch">الفرع (Branch)</label>
+            <input id="ghBranch" type="text" placeholder="main" />
+          </div>
+          <div class="field" style="margin:0">
+            <label class="fld" for="ghToken">GitHub Token (Fine-grained, صلاحية Contents: Read & Write)</label>
+            <div class="toggle-pass">
+              <input id="ghToken" type="password" placeholder="ghp_xxx..." />
+              <button type="button" id="btnTogglePass">إظهار</button>
+            </div>
+          </div>
+        </div>
+        <button class="btn sm" id="btnSaveGh" style="margin-top:12px">حفظ الإعدادات</button>
+        <div class="sync-row" id="ghStatusRow"><span class="sync-dot" id="ghStatusDot"></span><span id="ghStatusText">غير متصل — سيتم الحفظ محليًا فقط</span></div>
       </div>
     </section>
   </main>
@@ -390,39 +504,52 @@ const EXCEL_URL = "https://raw.githubusercontent.com/ghyathtab-oss/auh-generalsu
 
 /*
   نموذج صيغة ملف Excel (shifts.xlsx) :
-  ┌────────────┬──────────┬──────────┬──────┐
-  │ A: التاريخ  │ B: Shift │ C: اسم   │ D:PGY│
-  ├────────────┼──────────┼──────────┼──────┤
-  │ 01/07/2026 │ مناوبة   │ أحمد     │ PGY1 │
-  │ 02/07/2026 │ مناوبة   │ سارة     │ PGY2 │
-  │ 03/07/2026 │ مناوبة   │ علي      │ PGY3 │
-  └────────────┴──────────┴──────────┴──────┘
+  ┌────────────┬──────────┬──────────┬──────┬────────────────┬──────────┐
+  │ A: التاريخ  │ B: Shift │ C: اسم   │ D:PGY│ E: رقم التواصل  │ F: القسم │
+  ├────────────┼──────────┼──────────┼──────┼────────────────┼──────────┤
+  │ 01/07/2026 │ إسعاف    │ حكمت     │ PGY1 │ +971500000000  │ إسعاف    │
+  │ 01/07/2026 │ إسعاف    │ شيرين    │ PGY1 │ +971500000001  │ إسعاف    │
+  │ 01/07/2026 │ إسعاف    │ نيجرفان  │ PGY2 │ +971500000002  │ إسعاف    │
+  └────────────┴──────────┴──────────┴──────┴────────────────┴──────────┘
 */
 
 const MONTHS_AR = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const DOW_AR = ["أحد","إثنين","ثلاثاء","أربعاء","خميس","جمعة","سبت"];
 
+/* الأقسام (تطابق عمود F في ملف Excel) */
+const DEPARTMENTS = [
+  {key:"إسعاف", icon:"🚑"},
+  {key:"عناية", icon:"🏥"},
+  {key:"جناح", icon:"🛏️"},
+  {key:"بارد", icon:"📋"}
+];
+
 /* ============ MEDICAL TERMS ============ */
 const TERMS = [
-  {en:"Appendectomy", ar:"استئصال الزائدة الدودية", ds:"عملية جراحية لإزالة الزائدة الدودية الملتهبة."},
-  {en:"Cholecystectomy", ar:"استئصال المرارة", ds:"إزالة المرارة، غالبًا بالمنظار."},
-  {en:"Anastomosis", ar:"المفاغرة", ds:"وصل جزأين من عضو أنبوبي جراحيًا."},
-  {en:"Laparotomy", ar:"فتح البطن", ds:"شق جراحي في جدار البطن للوصول للأعضاء."},
-  {en:"Hernia", ar:"الفتق", ds:"بروز عضو من خلال جدار العضلة الحاوية له."},
-  {en:"Peritonitis", ar:"التهاب الصفاق", ds:"التهاب الغشاء المبطّن لتجويف البطن."},
-  {en:"Hemostasis", ar:"الإرقاء", ds:"عملية إيقاف النزيف."},
-  {en:"Suture", ar:"الخياطة الجراحية", ds:"خيط يُستخدم لإغلاق الجروح والشقوق."},
-  {en:"Sepsis", ar:"الإنتان", ds:"استجابة جسدية خطيرة لعدوى منتشرة في الدم."},
-  {en:"Ileus", ar:"العلوص", ds:"توقف الحركة الطبيعية للأمعاء."},
-  {en:"Drain", ar:"النزّاحة", ds:"أنبوب لتصريف السوائل من موضع الجراحة."},
-  {en:"Debridement", ar:"التنضير", ds:"إزالة الأنسجة الميتة أو الملوثة من الجرح."},
-  {en:"Stoma", ar:"الفغرة", ds:"فتحة جراحية في البطن لتصريف الفضلات."},
-  {en:"Resection", ar:"الاستئصال", ds:"إزالة جزء من عضو أو نسيج جراحيًا."},
-  {en:"Triage", ar:"الفرز", ds:"ترتيب أولوية علاج المرضى حسب الخطورة."}
+  {en:"Appendectomy", ar:"استئصال الزائدة الدودية", ds:"عملية جراحية لإزالة الزائدة الدودية الملتهبة.", ex:"تم إجراء استئصال الزائدة الدودية بالمنظار لمريض يعاني من التهاب زائدة حاد.", abbr:"App-ectomy", syn:["Appendicectomy"]},
+  {en:"Cholecystectomy", ar:"استئصال المرارة", ds:"إزالة المرارة جراحيًا، غالبًا بالمنظار لعلاج حصوات أو التهاب المرارة.", ex:"خضعت المريضة لاستئصال المرارة بالمنظار بسبب حصوات مرارية متكررة.", abbr:"Lap Chole", syn:["Gallbladder removal"]},
+  {en:"Anastomosis", ar:"المفاغرة", ds:"وصل جزأين من عضو أنبوبي (كالأمعاء أو الأوعية الدموية) جراحيًا لاستعادة الاستمرارية.", ex:"أُجريت مفاغرة معوية بعد استئصال جزء من القولون.", syn:["Surgical join"]},
+  {en:"Laparotomy", ar:"فتح البطن", ds:"شق جراحي كبير في جدار البطن للوصول إلى الأعضاء الداخلية وفحصها أو علاجها.", ex:"تم إجراء فتح بطن استكشافي لمريض يشتبه بانثقاب معوي.", abbr:"Lap"},
+  {en:"Hernia", ar:"الفتق", ds:"بروز عضو أو نسيج من خلال نقطة ضعف في جدار العضلة المحيطة به.", ex:"شُخّص المريض بفتق إربي وأُحيل لإصلاح جراحي.", syn:["Rupture (lay term)"]},
+  {en:"Peritonitis", ar:"التهاب الصفاق", ds:"التهاب الغشاء المبطّن لتجويف البطن، غالبًا نتيجة عدوى أو انثقاب أحد الأعضاء.", ex:"عانى المريض من ألم بطني منتشر وحُمّى، وتأكد تشخيص التهاب الصفاق."},
+  {en:"Hemostasis", ar:"الإرقاء", ds:"العملية الفسيولوجية أو الجراحية لإيقاف النزيف من وعاء دموي.", ex:"تم تحقيق الإرقاء باستخدام الكي الكهربائي أثناء العملية."},
+  {en:"Suture", ar:"الخياطة الجراحية", ds:"خيط أو مادة تُستخدم لإغلاق الجروح والشقوق الجراحية وتقريب حوافها.", ex:"أُغلق الجرح بخياطة جراحية قابلة للامتصاص.", syn:["Stitch"]},
+  {en:"Sepsis", ar:"الإنتان", ds:"استجابة جسدية خطيرة ومهددة للحياة لعدوى منتشرة في الدم.", ex:"تدهورت حالة المريض إلى إنتان دموي مع انخفاض في ضغط الدم.", abbr:"SIRS+infection"},
+  {en:"Ileus", ar:"العلوص", ds:"توقف مؤقت في الحركة الطبيعية (التمعج) للأمعاء، شائع بعد الجراحات البطنية.", ex:"تأخر خروج الغازات لدى المريض بعد العملية مما يوحي بعلوص شللي."},
+  {en:"Drain", ar:"النزّاحة", ds:"أنبوب يُوضع جراحيًا لتصريف السوائل أو الدم المتجمع في موضع الجراحة.", ex:"تم وضع نزّاحة في الجرح لمراقبة كمية الإفرازات.", syn:["Surgical drain"]},
+  {en:"Debridement", ar:"التنضير", ds:"إزالة الأنسجة الميتة أو المتضررة أو الملوثة من الجرح لتحفيز الالتئام.", ex:"خضع الجرح لتنضير جراحي لإزالة الأنسجة النخرية."},
+  {en:"Stoma", ar:"الفغرة", ds:"فتحة جراحية تُصنع في جدار البطن لتحويل مسار الأمعاء أو المسالك البولية للخارج.", ex:"أُجريت فغرة قولونية مؤقتة بعد استئصال جزء من القولون السيني.", syn:["Colostomy", "Ileostomy"]},
+  {en:"Resection", ar:"الاستئصال", ds:"إزالة جزء من عضو أو نسيج جراحيًا، عادة بسبب مرض أو ورم.", ex:"تم إجراء استئصال جزئي للمعدة لعلاج ورم خبيث."},
+  {en:"Triage", ar:"الفرز", ds:"عملية تصنيف وترتيب أولوية علاج المرضى بناءً على شدة حالتهم.", ex:"خضع المريض لفرز إسعافي عاجل عند وصوله للطوارئ."},
+  {en:"Fistula", ar:"الناسور", ds:"اتصال غير طبيعي بين عضوين مجوّفين أو بين عضو والجلد.", ex:"تشكّل ناسور معوي جلدي كمضاعفة بعد الجراحة."},
+  {en:"Abscess", ar:"الخراج", ds:"تجمّع موضعي من القيح ناتج عن عدوى بكتيرية.", ex:"تم تصريف خراج في منطقة المستقيم تحت التخدير الموضعي.", syn:["Pus collection"]},
+  {en:"Necrosis", ar:"التموّت (النخر)", ds:"موت الأنسجة الحي نتيجة نقص التروية الدموية أو العدوى أو الإصابة.", ex:"أظهرت الصور الإشعاعية مناطق نخر في الأمعاء تستدعي استئصالًا عاجلًا."},
+  {en:"Biopsy", ar:"الخزعة", ds:"أخذ عينة صغيرة من نسيج لفحصها مخبريًا لتأكيد التشخيص.", ex:"أُخذت خزعة من الكتلة الثديية لتحديد طبيعتها."},
+  {en:"Laceration", ar:"التمزق (الجرح الرضي)", ds:"جرح ناتج عن قطع أو تمزق الجلد والأنسجة تحته بسبب إصابة رضّية.", ex:"تمت خياطة تمزق عميق في فروة الرأس بعد حادث سير."}
 ];
 
 /* ============ STATE ============ */
-let SHIFTS = [];          // {date:Date, shift, resident, pgy}
+let SHIFTS = [];          // {date:Date, shift, resident, pgy, phone, dept}
 let dataLoaded = false;
 let dataError = false;
 let viewYear, viewMonth;  // calendar view
@@ -436,8 +563,19 @@ function go(page){
   window.scrollTo(0,0);
   if(page==='shifts') renderCalendar();
   if(page==='residents') renderResidents();
+  if(page==='patients') renderPatients();
+  if(page==='departments') renderDepartments();
 }
 navBtns.forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+
+/* "تواصل مع قسم" is reached from the Home card, not the bottom nav (kept unchanged) */
+document.getElementById('btnDepartments').addEventListener('click',()=>{
+  pages.forEach(p=>p.classList.toggle('active', p.id==='page-departments'));
+  navBtns.forEach(b=>b.classList.remove('active'));
+  window.scrollTo(0,0);
+  renderDepartments();
+});
+document.getElementById('btnBackHome').addEventListener('click',()=>go('home'));
 
 /* ============ HOME SELECTORS ============ */
 const selYear = document.getElementById('selYear');
@@ -504,7 +642,9 @@ async function loadData(){
         date:d,
         shift:(r[1]??'مناوبة').toString().trim(),
         resident:(r[2]??'—').toString().trim(),
-        pgy:(r[3]??'—').toString().trim().toUpperCase()
+        pgy:(r[3]??'—').toString().trim().toUpperCase(),
+        phone:(r[4]??'').toString().trim(),
+        dept:(r[5]??'').toString().trim()
       });
     });
     dataLoaded=true;dataError=false;
@@ -600,8 +740,9 @@ function renderResidents(){
   const map={};
   SHIFTS.forEach(s=>{
     const key=s.resident+'|'+s.pgy;
-    if(!map[key]) map[key]={name:s.resident,pgy:s.pgy,count:0};
+    if(!map[key]) map[key]={name:s.resident,pgy:s.pgy,count:0,phone:''};
     map[key].count++;
+    if(s.phone) map[key].phone=s.phone;
   });
   const residents=Object.values(map);
   if(!residents.length){body.innerHTML='<div class="state"><div class="ico">👥</div>لا يوجد مقيمون في البيانات.</div>';return;}
@@ -615,7 +756,8 @@ function renderResidents(){
     html+='<div class="pgy-group"><span class="pgy-label">'+k+'</span>';
     groups[k].sort((a,b)=>a.name.localeCompare(b.name,'ar')).forEach(r=>{
       const initial=(r.name[0]||'?');
-      html+='<div class="res-item" data-name="'+encodeURIComponent(r.name)+'"><div class="avatar">'+initial+'</div><div class="res-info"><div class="nm">'+r.name+'</div><div class="cnt">'+r.count+' مناوبة</div></div><span class="chev">‹</span></div>';
+      const callBtn = r.phone ? '<a class="res-call" href="tel:'+r.phone+'" onclick="event.stopPropagation()" aria-label="اتصال"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></a>' : '';
+      html+='<div class="res-item" data-name="'+encodeURIComponent(r.name)+'"><div class="avatar">'+initial+'</div><div class="res-info"><div class="nm">'+r.name+'</div><div class="cnt">'+r.count+' مناوبة</div></div>'+callBtn+'<span class="chev">‹</span></div>';
     });
     html+='</div>';
   });
@@ -630,8 +772,12 @@ function retryLoad2(){
 }
 function openResident(name){
   const list=SHIFTS.filter(s=>s.resident===name).sort((a,b)=>a.date-b.date);
+  const phone = [...list].reverse().find(s=>s.phone)?.phone || '';
   let html='<h3>'+name+'</h3>';
-  html+='<div class="date-sub">'+list.length+' مناوبة إجمالاً</div>';
+  html+='<div class="date-sub">'+list.length+' مناوبة إجمالاً'+(list[0]?' · '+list[0].pgy:'')+'</div>';
+  if(phone){
+    html+='<div class="detail"><span class="lbl">رقم التواصل</span><span class="val" style="direction:ltr;display:inline-block">'+phone+'</span><a class="call-btn" href="tel:'+phone+'" aria-label="اتصال"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></a></div>';
+  }
   if(!list.length){html+='<div class="empty-list">لا توجد مناوبات.</div>';}
   else{
     list.forEach(s=>{
@@ -643,31 +789,242 @@ function openResident(name){
   overlay.classList.add('open');
 }
 
-/* ============ PATIENTS (localStorage) ============ */
+/* ============ DEPARTMENTS ("تواصل مع قسم") ============ */
+function isSameDay(a,b){
+  return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+}
+function onDutyToday(deptKey){
+  const today=new Date();
+  return SHIFTS.filter(s=> isSameDay(s.date,today) && (s.dept||s.shift)===deptKey )
+               .sort((a,b)=>pgyRank(a.pgy)-pgyRank(b.pgy));
+}
+function renderDepartments(){
+  const grid=document.getElementById('deptGrid');
+  if(!dataLoaded){grid.innerHTML='<div class="state" style="grid-column:1/-1"><div class="spin"></div>جاري التحميل…</div>';return;}
+  if(dataError){grid.innerHTML='<div class="state err" style="grid-column:1/-1"><div class="ico">⚠️</div>تعذّر تحميل البيانات.</div>';return;}
+  grid.innerHTML = DEPARTMENTS.map(d=>{
+    const onDuty = onDutyToday(d.key);
+    return '<div class="dept-card" data-dept="'+encodeURIComponent(d.key)+'"><div class="ic">'+d.icon+'</div><div class="nm">'+d.key+'</div><div class="ct">'+(onDuty.length? onDuty.length+' مناوب اليوم' : 'لا يوجد مناوب')+'</div></div>';
+  }).join('');
+  grid.querySelectorAll('.dept-card').forEach(el=>{
+    el.addEventListener('click',()=>openDepartment(decodeURIComponent(el.dataset.dept)));
+  });
+}
+function openDepartment(deptKey){
+  const onDuty = onDutyToday(deptKey);
+  const today=new Date();
+  let html='<h3>قسم '+deptKey+'</h3>';
+  html+='<div class="date-sub">المناوبون اليوم · '+today.getDate()+' '+MONTHS_AR[today.getMonth()]+' '+today.getFullYear()+'</div>';
+  if(!onDuty.length){
+    html+='<div class="empty-list">لا يوجد مناوب حاليًا</div>';
+  }else{
+    onDuty.forEach(s=>{
+      const initial=(s.resident[0]||'?');
+      html+='<div class="duty-item"><div class="avatar">'+initial+'</div><div style="flex:1"><div class="nm">'+s.resident+'</div><div class="pgy">'+s.pgy+'</div></div>'+
+        (s.phone ? '<a class="res-call" href="tel:'+s.phone+'" aria-label="اتصال"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></a>' : '<span class="ct" style="color:var(--muted);font-size:11px">لا يوجد رقم</span>')+
+      '</div>';
+    });
+  }
+  sheetContent.innerHTML=html;
+  overlay.classList.add('open');
+}
+
+/* ============ PATIENTS ARCHIVE (LocalStorage + optional GitHub) ============ */
 const PT_KEY='auh_patients';
-function getPatients(){try{return JSON.parse(localStorage.getItem(PT_KEY))||[];}catch{return [];}}
+const GH_KEY='auh_gh_settings';
+
+function getGhSettings(){
+  try{ return JSON.parse(localStorage.getItem(GH_KEY)) || {owner:'',repo:'',branch:'main',token:''}; }
+  catch{ return {owner:'',repo:'',branch:'main',token:''}; }
+}
+function ghConfigured(){
+  const s=getGhSettings();
+  return !!(s.owner && s.repo && s.token);
+}
+function setSyncStatus(state,text){
+  const dot=document.getElementById('syncDot');
+  const txt=document.getElementById('syncText');
+  if(dot) dot.className='sync-dot'+(state!=='idle'?' '+state:'');
+  if(txt) txt.textContent=text;
+}
+/* Writes data/patients.json directly to the GitHub repo via the Contents API.
+   Note: this calls the GitHub API straight from the browser using a personal
+   access token stored ONLY in this device's localStorage (never hardcoded in
+   the page source). That token never goes anywhere except api.github.com. */
+async function pushPatientsToGitHub(list){
+  if(!ghConfigured()){ setSyncStatus('idle','الحفظ محليًا فقط (لم يتم ضبط GitHub من صفحة "المزيد")'); return; }
+  const s=getGhSettings();
+  setSyncStatus('busy','جارٍ الحفظ على GitHub…');
+  try{
+    const path='data/patients.json';
+    const api='https://api.github.com/repos/'+s.owner+'/'+s.repo+'/contents/'+path;
+    let sha=null;
+    try{
+      const cur=await fetch(api+'?ref='+encodeURIComponent(s.branch||'main'),{
+        headers:{ Authorization:'Bearer '+s.token, Accept:'application/vnd.github+json' }
+      });
+      if(cur.ok){ const curData=await cur.json(); sha=curData.sha; }
+    }catch(e){}
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(list,null,2))));
+    const body={ message:'تحديث أرشيف المرضى — '+new Date().toLocaleString('ar-EG'), content:content, branch:s.branch||'main' };
+    if(sha) body.sha=sha;
+    const res=await fetch(api,{
+      method:'PUT',
+      headers:{ Authorization:'Bearer '+s.token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' },
+      body:JSON.stringify(body)
+    });
+    if(!res.ok){ throw new Error('HTTP '+res.status); }
+    setSyncStatus('ok','تم الحفظ على GitHub ✓ (data/patients.json)');
+  }catch(e){
+    console.log('[v0] GitHub sync failed:', e.message);
+    setSyncStatus('bad','تعذّر الحفظ على GitHub — البيانات محفوظة محليًا فقط');
+  }
+}
+function persistPatients(list){
+  localStorage.setItem(PT_KEY, JSON.stringify(list));
+  pushPatientsToGitHub(list);
+}
+function getPatients(){ try{ return JSON.parse(localStorage.getItem(PT_KEY))||[]; }catch{ return []; } }
+function escapeHtml(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function formatArDate(iso){
+  if(!iso) return '';
+  const d=new Date(iso+'T00:00:00');
+  if(isNaN(d)) return iso;
+  return d.getDate()+' '+MONTHS_AR[d.getMonth()]+' '+d.getFullYear();
+}
 function renderPatients(){
   const body=document.getElementById('ptBody');
-  const list=getPatients();
+  const qEl=document.getElementById('ptSearch');
+  const q=(qEl?qEl.value:'').trim().toLowerCase();
+  let list=getPatients().slice().sort((a,b)=>(b.ts||0)-(a.ts||0));
   document.getElementById('ptCount').textContent=list.length;
-  if(!list.length){body.innerHTML='<div class="empty-list">لا يوجد مرضى محفوظون بعد.</div>';return;}
+  if(q){
+    list=list.filter(p=>
+      (p.name||'').toLowerCase().includes(q) ||
+      (p.phone||'').toLowerCase().includes(q) ||
+      (p.complaint||'').toLowerCase().includes(q)
+    );
+  }
+  if(!list.length){
+    body.innerHTML='<div class="empty-list">'+(q?'لا توجد نتائج مطابقة لبحثك.':'لا يوجد مرضى محفوظون بعد.')+'</div>';
+    return;
+  }
   body.innerHTML=list.map(p=>(
-    '<div class="pt-item"><div style="flex:1"><div class="nm">'+p.name+'</div><div class="ph">'+p.phone+'</div></div>'+
-    '<a class="pt-call" href="tel:'+p.phone+'" aria-label="اتصال"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></a></div>'
+    '<div class="pt-item2" data-id="'+p.id+'">'+
+      '<div class="row1"><div class="nm">'+escapeHtml(p.name)+'</div><div class="dt">'+formatArDate(p.date)+'</div></div>'+
+      '<div class="meta">'+
+        '<span class="tag ph">'+escapeHtml(p.phone||'—')+'</span>'+
+        (p.complaint?'<span class="tag">'+escapeHtml(p.complaint)+'</span>':'')+
+        (p.consultant?'<span class="tag">د. '+escapeHtml(p.consultant)+'</span>':'')+
+      '</div></div>'
   )).join('');
+  body.querySelectorAll('.pt-item2').forEach(el=>{
+    el.addEventListener('click',()=>openPatient(el.dataset.id));
+  });
 }
+document.getElementById('ptSearch').addEventListener('input', renderPatients);
+
 document.getElementById('btnSavePt').addEventListener('click',()=>{
   const name=document.getElementById('ptName').value.trim();
   const phone=document.getElementById('ptPhone').value.trim();
+  const complaint=document.getElementById('ptComplaint').value.trim();
+  const consultant=document.getElementById('ptConsultant').value.trim();
+  const date=document.getElementById('ptDate').value || new Date().toISOString().slice(0,10);
   if(!name||!phone){alert('يرجى إدخال الاسم ورقم التواصل.');return;}
   const list=getPatients();
-  list.unshift({name,phone,ts:Date.now()});
-  localStorage.setItem(PT_KEY,JSON.stringify(list));
+  list.unshift({
+    id:'p'+Date.now()+Math.random().toString(36).slice(2,7),
+    name, phone, complaint, consultant, date, ts:Date.now()
+  });
+  persistPatients(list);
   document.getElementById('ptName').value='';
   document.getElementById('ptPhone').value='';
+  document.getElementById('ptComplaint').value='';
+  document.getElementById('ptConsultant').value='';
+  document.getElementById('ptDate').value='';
   renderPatients();
 });
+
+/* Tapping a patient opens an edit sheet — every field auto-saves on change, no save button */
+function openPatient(id){
+  const list=getPatients();
+  const p=list.find(x=>x.id===id);
+  if(!p) return;
+  let html='<h3>تعديل بيانات المريض</h3>';
+  html+='<div class="date-sub">يتم الحفظ تلقائيًا مع كل تعديل</div>';
+  html+='<div class="field"><label class="fld">اسم المريض</label><input id="edName" type="text" value="'+escapeHtml(p.name)+'"/></div>';
+  html+='<div class="field-row"><div class="field"><label class="fld">رقم التواصل</label><input id="edPhone" type="tel" value="'+escapeHtml(p.phone)+'"/></div><div class="field"><label class="fld">التاريخ</label><input id="edDate" type="date" value="'+escapeHtml(p.date)+'"/></div></div>';
+  html+='<div class="field"><label class="fld">الشكاية</label><input id="edComplaint" type="text" value="'+escapeHtml(p.complaint)+'"/></div>';
+  html+='<div class="field"><label class="fld">اسم الأخصائي</label><input id="edConsultant" type="text" value="'+escapeHtml(p.consultant)+'"/></div>';
+  html+='<a class="btn ghost sm" href="tel:'+escapeHtml(p.phone)+'" style="margin-top:6px">اتصال بالمريض</a>';
+  sheetContent.innerHTML=html;
+  overlay.classList.add('open');
+
+  let saveTimer=null;
+  function autoSave(){
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(()=>{
+      const list2=getPatients();
+      const idx=list2.findIndex(x=>x.id===id);
+      if(idx===-1) return;
+      list2[idx]={
+        ...list2[idx],
+        name:document.getElementById('edName').value.trim(),
+        phone:document.getElementById('edPhone').value.trim(),
+        date:document.getElementById('edDate').value,
+        complaint:document.getElementById('edComplaint').value.trim(),
+        consultant:document.getElementById('edConsultant').value.trim()
+      };
+      persistPatients(list2);
+      renderPatients();
+    },450);
+  }
+  ['edName','edPhone','edDate','edComplaint','edConsultant'].forEach(fid=>{
+    document.getElementById(fid).addEventListener('input',autoSave);
+  });
+}
+
+/* ===== GitHub settings UI (in the "More" page) ===== */
+function updateGhStatusUI(){
+  const s=getGhSettings();
+  document.getElementById('ghOwner').value=s.owner||'';
+  document.getElementById('ghRepo').value=s.repo||'';
+  document.getElementById('ghBranch').value=s.branch||'main';
+  document.getElementById('ghToken').value=s.token||'';
+  const dot=document.getElementById('ghStatusDot');
+  const txt=document.getElementById('ghStatusText');
+  if(ghConfigured()){
+    dot.className='sync-dot ok';
+    txt.textContent='متصل — سيتم حفظ المرضى أيضًا في '+s.owner+'/'+s.repo;
+    setSyncStatus('idle','محفوظ محليًا + GitHub');
+  }else{
+    dot.className='sync-dot';
+    txt.textContent='غير متصل — سيتم الحفظ محليًا فقط';
+    setSyncStatus('idle','الحفظ محليًا فقط');
+  }
+}
+document.getElementById('btnSaveGh').addEventListener('click',()=>{
+  const s={
+    owner:document.getElementById('ghOwner').value.trim(),
+    repo:document.getElementById('ghRepo').value.trim(),
+    branch:document.getElementById('ghBranch').value.trim()||'main',
+    token:document.getElementById('ghToken').value.trim()
+  };
+  localStorage.setItem(GH_KEY, JSON.stringify(s));
+  updateGhStatusUI();
+  alert('تم حفظ إعدادات GitHub على هذا الجهاز فقط.');
+});
+document.getElementById('btnTogglePass').addEventListener('click',()=>{
+  const inp=document.getElementById('ghToken');
+  const btn=document.getElementById('btnTogglePass');
+  if(inp.type==='password'){ inp.type='text'; btn.textContent='إخفاء'; }
+  else{ inp.type='password'; btn.textContent='إظهار'; }
+});
+
 renderPatients();
+updateGhStatusUI();
 
 /* ============ TOOLS ============ */
 document.getElementById('btnRandom').addEventListener('click',()=>{
@@ -701,11 +1058,24 @@ const trBody=document.getElementById('trBody');
 function renderTranslator(q){
   q=q.trim().toLowerCase();
   if(!q){trBody.innerHTML='<div class="empty-list">اكتب مصطلحًا للبحث…</div>';return;}
-  const res=TERMS.filter(t=>t.en.toLowerCase().includes(q)||t.ar.includes(q));
+  const res=TERMS.filter(t=>{
+    if(t.en.toLowerCase().includes(q)) return true;
+    if(t.ar.includes(q)) return true;
+    if(t.abbr && t.abbr.toLowerCase().includes(q)) return true;
+    if(t.syn && t.syn.some(s=>s.toLowerCase().includes(q))) return true;
+    return false;
+  });
   if(!res.length){trBody.innerHTML='<div class="empty-list">لا توجد نتائج مطابقة.</div>';return;}
-  trBody.innerHTML=res.map(t=>(
-    '<div class="tr-result"><div class="en">'+t.en+'</div><div class="ar">'+t.ar+'</div><div class="ds">'+t.ds+'</div></div>'
-  )).join('');
+  trBody.innerHTML=res.map(t=>{
+    let html='<div class="tr-result">';
+    html+='<div class="en">'+t.en+(t.abbr?' <span class="abbr">('+t.abbr+')</span>':'')+'</div>';
+    html+='<div class="ar">'+t.ar+'</div>';
+    html+='<div class="ds">'+t.ds+'</div>';
+    if(t.ex) html+='<div class="ex"><b>مثال:</b> '+t.ex+'</div>';
+    if(t.syn && t.syn.length) html+='<div class="syn"><b>مرادفات:</b> '+t.syn.join('، ')+'</div>';
+    html+='</div>';
+    return html;
+  }).join('');
 }
 trInput.addEventListener('input',e=>renderTranslator(e.target.value));
 renderTranslator('');
